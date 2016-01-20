@@ -9,7 +9,7 @@ public class Pizza {
     public String info;
     public int price;
     public String add;
-    public int count ;
+    public int count;
 
 
     public void setName(String name) {

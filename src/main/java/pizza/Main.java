@@ -25,14 +25,18 @@ public class Main {
         makePizza();
         makeDrinks();
         totalPrice = pizzaPrice + drinksPrice;
+        if (totalPrice == 0) {
+            System.err.println("Thank you for visiting our store");
+        } else {
+            finalPrice();
+            System.out.println("Your final price is: " + totalPrice);
+        }
 
-        finalPrice();
-        System.out.println("Your final price is: " + totalPrice);
     }
 
 
     public static void finalPrice() {
-        System.out.println("Please enter the date when you want to buy pizza in format : Year-month-day");
+        System.out.println("Please enter the date when you want to buy pizza or drinks in format : Year-month-day");
         try {
             date = LocalDate.parse(reader.readLine());
             Check.check();
@@ -51,7 +55,6 @@ public class Main {
         try {
             n = Integer.parseInt(reader.readLine());
 
-
             if (n > 0) {
                 for (int j = 0; j < n; j++) {
                     PizzaBuilder pizzaBuilder = new PizzaBuilder();
@@ -62,15 +65,19 @@ public class Main {
                     pizzaBuilder = pizzaBuilder.makeInfo().makeSize(Integer.parseInt(reader.readLine())).makePrice();
                     System.out.println("3. If you want some addons, please enter the number of addons: ");
                     int adds = Integer.parseInt(reader.readLine());
-                    System.out.println("4.  Enter the name of addons. Available addons are: Cheese, Sausage, Spice, Fruits, Tomato");
-                    for (int k = 0; k < adds; k++) {
-                        pizzaBuilder = pizzaBuilder.add(reader.readLine());
+                    if (adds > 0) {
+                        System.out.println("4.  Enter the name of addons. Available addons are: Cheese, Sausage, Spice, Fruits, Tomato");
+                        for (int k = 0; k < adds; k++) {
+                            pizzaBuilder = pizzaBuilder.add(reader.readLine());
+                        }
+                    } else {
+                        System.out.println("Your pizza is without addons");
                     }
                     pizzas.add(pizzaBuilder.build());
                     System.out.println(pizzas.get(j));
                 }
             } else {
-                System.err.println("Please enter the number > 0");
+                System.err.println("As we see you don't want pizza, your number of pizzas is: " + n);
             }
 
 
@@ -103,7 +110,7 @@ public class Main {
                     System.out.println(drinks);
                 }
             } else {
-                System.err.println("Please enter the number > 0");
+                System.err.println("As we see you don't want drinks, your number of drinks is :" + d);
             }
         } catch (IOException e) {
             e.printStackTrace();

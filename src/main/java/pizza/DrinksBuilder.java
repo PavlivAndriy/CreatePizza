@@ -29,7 +29,8 @@ public class DrinksBuilder {
         } else if (s == 2) {
             p *= s;
         } else {
-            System.err.println("Please choose from following sizes: 0.5L, 1L, 1.5L, 2L");
+            System.err.println("Please try again. You can choose from the following sizes: 0.5L, 1L, 1.5L, 2L");
+            System.exit(0);
         }
         return this;
     }
@@ -50,8 +51,9 @@ public class DrinksBuilder {
         } else if (n.equals("Coffee") & date.getDayOfWeek().equals(DayOfWeek.MONDAY)) {
             p = 0;
         } else {
-            System.err.println("There are not this kind of drink. Please choose from following : Beer, Vine, Coca-cola, Fanta" +
+            System.err.println("There are not this kind of drink. Please try again, you can choose from following : Beer, Vine, Coca-cola, Fanta" +
                     "Sprite, Pepsi, Coffee, Juice");
+            System.exit(0);
         }
         return this;
     }

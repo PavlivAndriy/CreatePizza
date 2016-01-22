@@ -18,6 +18,8 @@ public class Check {
             Main.totalPrice *= 0.5;
             System.out.println("Your economy, because of hollidays: " + Main.totalPrice);
             discount = "No";
+        } else {
+
         }
 
         if (discount.equalsIgnoreCase("Yes")) {

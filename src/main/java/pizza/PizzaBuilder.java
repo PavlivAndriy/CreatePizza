@@ -63,6 +63,7 @@ public class PizzaBuilder {
             p = 77;
         } else {
             System.err.println("This is incorrect pizza's size, please check it again. Available sizes are: 30 , 50");
+            System.exit(0);
         }
         return this;
     }

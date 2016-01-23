@@ -12,9 +12,16 @@ public class PizzaBuilder {
     public String add = " ";
 
     public PizzaBuilder makeName(String n) {
-        this.n = n;
-        count++;
+        if ((n.equals("Capricciosa") | n.equals("Salami") | n.equals("Mexicano") | n.equals("Papperoni"))) {
+            this.n = n;
+            count++;
+
+        } else {
+            System.err.println("This is incorrect pizza's name, please check it again. Available pizzas are: Capricciosa, Salami, Vegeteriana, Mexicano, Papperoni");
+            System.exit(0);
+        }
         return this;
+
     }
 
     public PizzaBuilder makeInfo() {
@@ -31,6 +38,7 @@ public class PizzaBuilder {
         } else {
             System.err.println("This is incorrect pizza's name, please check it again. Available pizzas are: Capricciosa, Salami," +
                     "Vegeteriana, Mexicano, Papperoni");
+            System.exit(0);
         }
         return this;
     }

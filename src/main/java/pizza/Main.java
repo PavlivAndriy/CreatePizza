@@ -19,7 +19,7 @@ public class Main {
     public static ArrayList<Drinks> drinks = new ArrayList<Drinks>();
     public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     public static LocalDate date = LocalDate.now();
-
+    public static int adds;
     public static void main(String[] args) throws IOException {
 
         makePizza();
@@ -62,9 +62,16 @@ public class Main {
                     System.out.println("1. Enter name of pizza. Available pizzas are: Capricciosa, Salami, Vegeteriana, Mexicano, Papperoni");
                     pizzaBuilder = pizzaBuilder.makeName(reader.readLine());
                     System.out.println("2. Enter the size of pizza: Available sizes of pizza are: 30 and 50");
-                    pizzaBuilder = pizzaBuilder.makeInfo().makeSize(Integer.parseInt(reader.readLine())).makePrice();
-                    System.out.println("3. If you want some addons, please enter the number of addons: ");
-                    int adds = Integer.parseInt(reader.readLine());
+                    try {
+
+                        pizzaBuilder = pizzaBuilder.makeInfo().makeSize(Integer.parseInt(reader.readLine())).makePrice();
+                        System.out.println("3. If you want some addons, please enter the number of addons: ");
+                        adds = Integer.parseInt(reader.readLine());
+                    } catch (Exception e){
+                        System.err.println("Please type int number.");
+                        System.exit(0);
+                    }
+
                     if (adds > 0) {
                         System.out.println("4.  Enter the name of addons. Available addons are: Cheese, Sausage, Spice, Fruits, Tomato");
                         for (int k = 0; k < adds; k++) {
@@ -83,6 +90,9 @@ public class Main {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            System.err.println("Please type int number of pizzas");
+            System.exit(0);
         }
 
         for (int i = 0; i < PizzaBuilder.count; i++) {
@@ -105,7 +115,12 @@ public class Main {
                     System.out.println("1. Enter the name of drink. Please choose from following : Beer, Vine, Coca-cola, Fanta, Sprite, Pepsi, Coffee, Juice");
                     drinksBuilder = drinksBuilder.makeName(reader.readLine()).makePrice();
                     System.out.println("2. Enter the size of drink: Please choose from following sizes: 0.5, 1, 1.5, 2");
+                    try {
                     drinksBuilder = drinksBuilder.makeSize(Double.parseDouble(reader.readLine()));
+                    } catch (Exception e){
+                        System.err.println("Please type double number.");
+                        System.exit(0);
+                    }
                     drinks.add(drinksBuilder.build());
                     System.out.println(drinks);
                 }
@@ -114,6 +129,9 @@ public class Main {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            System.err.println("Please type int number of drinks.");
+            System.exit(0);
         }
 
         for (int i = 0; i < DrinksBuilder.count; i++) {

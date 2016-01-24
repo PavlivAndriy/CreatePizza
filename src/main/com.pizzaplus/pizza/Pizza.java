@@ -4,16 +4,17 @@ package pizza;
  * Created by Andriy on 1/12/2016.
  */
 public class Pizza {
-    public String name;
+    public PizzasNames pizzasNames;
     public int size;
     public String info;
     public int price;
-    public String add;
+    public String add = "";
     public int count;
+    public PizzasAddons pizzasAddons;
 
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(PizzasNames name) {
+        this.pizzasNames = pizzasNames;
     }
 
     public void setSize(int size) {
@@ -28,8 +29,9 @@ public class Pizza {
         this.price = price;
     }
 
-    public void setAdd(String add) {
-        this.add = add;
+    public void setAdd(PizzasAddons pizzasAddons) {
+        this.pizzasAddons = pizzasAddons;
+        this.add += " " + pizzasAddons;
     }
 
     public void setCount(int count) {
@@ -38,7 +40,7 @@ public class Pizza {
 
     @Override
     public String toString() {
-        return count + " " + this.getClass().getSimpleName() + " " + this.name + " " + this.info + ". Addons : " + add + ". Size is : "
+        return count + " " + this.getClass().getSimpleName() + " " + this.pizzasNames + " " + this.info + ". Addons : " + add + ". Size is : "
                 + size + " sm. Price is: " + price + " hrn";
     }
 }

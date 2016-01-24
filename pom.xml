@@ -38,7 +38,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
-                            <mainClass>pizza.Main</mainClass>
+                            <mainClass>Launcher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

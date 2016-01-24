@@ -1,5 +1,14 @@
-package pizza;
+package money;
 
+
+import drinks.Drinks;
+import drinks.DrinksBuilder;
+import drinks.DrinksNames;
+import drinks.DrinksSize;
+import pizza.Pizza;
+import pizza.PizzaBuilder;
+import pizza.PizzasAddons;
+import pizza.PizzasNames;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,10 +29,8 @@ public class Main {
     public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     public static LocalDate date = LocalDate.now();
     public static int adds;
-    public static void main(String[] args) throws IOException {
 
-        makePizza();
-        makeDrinks();
+    public static void storeInfo(){
         totalPrice = pizzaPrice + drinksPrice;
         if (totalPrice == 0) {
             System.err.println("Thank you for visiting our store");
@@ -31,9 +38,7 @@ public class Main {
             finalPrice();
             System.out.println("Your final price is: " + totalPrice);
         }
-
     }
-
 
     public static void finalPrice() {
         System.out.println("Please enter the date when you want to buy pizza or drinks in format : Year-month-day");
@@ -60,7 +65,7 @@ public class Main {
                     PizzaBuilder pizzaBuilder = new PizzaBuilder();
                     System.out.println("Please choose your pizza.");
                     System.out.println("1. Enter name of pizza. Available pizzas are: Capricciosa, Salami, Vegeteriana, Mexicano, Papperoni");
-                    pizzaBuilder = pizzaBuilder.makeName(reader.readLine());
+                    pizzaBuilder = pizzaBuilder.makeName(PizzasNames.valueOf(reader.readLine()));
                     System.out.println("2. Enter the size of pizza: Available sizes of pizza are: 30 and 50");
                     try {
 
@@ -75,7 +80,7 @@ public class Main {
                     if (adds > 0) {
                         System.out.println("4.  Enter the name of addons. Available addons are: Cheese, Sausage, Spice, Fruits, Tomato");
                         for (int k = 0; k < adds; k++) {
-                            pizzaBuilder = pizzaBuilder.add(reader.readLine());
+                            pizzaBuilder = pizzaBuilder.add(PizzasAddons.valueOf(reader.readLine()));
                         }
                     } else {
                         System.out.println("Your pizza is without addons");
@@ -113,10 +118,10 @@ public class Main {
                     DrinksBuilder drinksBuilder = new DrinksBuilder();
                     System.out.println("Please choose your drinks.");
                     System.out.println("1. Enter the name of drink. Please choose from following : Beer, Vine, Coca-cola, Fanta, Sprite, Pepsi, Coffee, Juice");
-                    drinksBuilder = drinksBuilder.makeName(reader.readLine()).makePrice();
+                    drinksBuilder = drinksBuilder.makeName(DrinksNames.valueOf(reader.readLine())).makePrice();
                     System.out.println("2. Enter the size of drink: Please choose from following sizes: 0.5, 1, 1.5, 2");
                     try {
-                    drinksBuilder = drinksBuilder.makeSize(Double.parseDouble(reader.readLine()));
+                    drinksBuilder = drinksBuilder.makeSize(DrinksSize.valueOf(reader.readLine()));
                     } catch (Exception e){
                         System.err.println("Please type double number.");
                         System.exit(0);

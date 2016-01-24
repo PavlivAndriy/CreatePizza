@@ -1,4 +1,4 @@
-package pizza;
+package money;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

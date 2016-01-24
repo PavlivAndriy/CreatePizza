@@ -71,7 +71,7 @@ public class DrinksBuilder {
                 price = 21;
                 break;
             default:
-                System.err.println("There are not this kind of drink. Please try again, you can choose from following : Beer, Vine, Coca-cola, Fanta" +
+                System.err.println("There are not this kind of drink. Please try again, you can choose from following : Beer, Vine, Cocacola, Fanta" +
                         "Sprite, Pepsi, Coffee, Juice");
                 System.exit(0);
         }

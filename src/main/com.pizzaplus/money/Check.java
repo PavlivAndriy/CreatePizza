@@ -11,49 +11,49 @@ public class Check {
 
 
     public static void setDiscount(String discount) {
-        LocalDate date = Main.date;
+        LocalDate date = Data.date;
         if (date.getDayOfYear() == 7
                 | (date.getMonth().equals(Month.AUGUST) & date.getDayOfMonth() == 24)
                 | (date.getDayOfYear() == 256)) {
-            Main.totalPrice *= 0.5;
-            System.out.println("Your economy, because of hollidays: " + Main.totalPrice);
+            Data.totalPrice *= 0.5;
+            System.out.println("Your economy, because of hollidays: " + Data.totalPrice);
             discount = "No";
         } else {
-
+            System.out.println("Available economy days are: Jannuary 7th, August 24th, 256 day of year");
         }
 
         if (discount.equalsIgnoreCase("Yes")) {
-            double discountPay = Main.totalPrice * 0.1;
-            Main.totalPrice *= 0.9;
+            double discountPay = Data.totalPrice * 0.1;
+            Data.totalPrice *= 0.9;
             System.out.println("Your discount is: " + discountPay);
         } else if (discount.equalsIgnoreCase("No")) {
-            Main.totalPrice *= 1;
+            Data.totalPrice *= 1;
         }
 
     }
 
 
     public static void check() {
-        LocalDate date = Main.date;
+        LocalDate date = Data.date;
 
         if (date.getMonth().equals(Month.SEPTEMBER) & date.getDayOfMonth() < 8 & date.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
-            Main.totalPrice *= 1;
+            Data.totalPrice *= 1;
             System.out.println("Today you don't need to pay tips");
         } else {
-            double tips = 0.05 * Main.totalPrice;
-            Main.totalPrice *= 1.05;
+            double tips = 0.05 * Data.totalPrice;
+            Data.totalPrice *= 1.05;
             System.out.println("Today your pay for tips is: +" + tips);
         }
     }
 
     public static void weekends() {
-        LocalDate date = Main.date;
+        LocalDate date = Data.date;
 
         if (date.getDayOfWeek().equals(DayOfWeek.FRIDAY)
                 & date.getDayOfWeek().equals(DayOfWeek.SATURDAY)
                 & date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-            double weekendsPay = 0.05 * Main.totalPrice;
-            Main.totalPrice *= 1.05;
+            double weekendsPay = 0.05 * Data.totalPrice;
+            Data.totalPrice *= 1.05;
             System.out.println("Today there are weekends, and additional payment is: +" + weekendsPay);
         }
 

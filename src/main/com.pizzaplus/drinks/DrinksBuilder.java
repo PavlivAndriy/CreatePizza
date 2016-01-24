@@ -1,9 +1,5 @@
 package drinks;
 
-import money.Main;
-
-import java.time.DayOfWeek;
-
 /**
  * Created by Andriy on 1/14/2016.
  */

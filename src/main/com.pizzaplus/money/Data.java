@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by Andriy on 1/12/2016.
  */
-public class Main {
+public class Data {
     public static double pizzaPrice;
     public static double drinksPrice;
     public static double totalPrice = 0;

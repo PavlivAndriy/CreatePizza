@@ -30,7 +30,7 @@ public class Data {
     public static LocalDate date = LocalDate.now();
     public static int adds;
 
-    public static void storeInfo(){
+    public static void storeInfo() {
         totalPrice = pizzaPrice + drinksPrice;
         if (totalPrice == 0) {
             System.err.println("Thank you for visiting our store");
@@ -72,7 +72,7 @@ public class Data {
                         pizzaBuilder = pizzaBuilder.makeInfo().makeSize(Integer.parseInt(reader.readLine())).makePrice();
                         System.out.println("3. If you want some addons, please enter the number of addons: ");
                         adds = Integer.parseInt(reader.readLine());
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.err.println("Please type int number.");
                         System.exit(0);
                     }
@@ -95,7 +95,7 @@ public class Data {
 
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Please type int number of pizzas");
             System.exit(0);
         }
@@ -121,8 +121,8 @@ public class Data {
                     drinksBuilder = drinksBuilder.makeName(DrinksNames.valueOf(reader.readLine())).makePrice();
                     System.out.println("2. Enter the size of drink: Please choose from following sizes: 0.5, 1, 1.5, 2");
                     try {
-                    drinksBuilder = drinksBuilder.makeSize(DrinksSize.valueOf(reader.readLine()));
-                    } catch (Exception e){
+                        drinksBuilder = drinksBuilder.makeSize(DrinksSize.valueOf(reader.readLine()));
+                    } catch (Exception e) {
                         System.err.println("Please type double number.");
                         System.exit(0);
                     }
@@ -134,7 +134,7 @@ public class Data {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Please type int number of drinks.");
             System.exit(0);
         }

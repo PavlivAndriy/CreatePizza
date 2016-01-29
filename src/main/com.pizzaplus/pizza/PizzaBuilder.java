@@ -25,7 +25,7 @@ public class PizzaBuilder {
     public PizzaBuilder makeInfo() {
         switch (pizzasNames) {
             case Capricciosa:
-                info = info + "+ Ham + mushrooms";
+                info = info + "+ Ham + Mushrooms";
                 break;
             case Salami:
                 info = info + "+ Sausage";

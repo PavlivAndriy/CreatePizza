@@ -5,10 +5,10 @@ package drinks;
  * Created by Andriy on 1/14/2016.
  */
 public class Drinks {
-    public DrinksNames drinksNames;
-    public DrinksSize drinksSize;
-    public int price;
-    public int count;
+    private DrinksNames drinksNames;
+    private DrinksSize drinksSize;
+    private int price;
+    private int count;
 
 
     public void setName(DrinksNames drinksNames) {
@@ -25,6 +25,10 @@ public class Drinks {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     @Override

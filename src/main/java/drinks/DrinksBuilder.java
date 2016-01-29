@@ -4,12 +4,20 @@ package drinks;
  * Created by Andriy on 1/14/2016.
  */
 public class DrinksBuilder {
-    public static int count = 0;
-    public String name;
-    public double size;
-    public int price = 0;
-    public DrinksNames drinksNames;
-    public DrinksSize drinksSize;
+    private static int count = 0;
+    private String name;
+    private double size;
+    private int price = 0;
+    private DrinksNames drinksNames;
+    private DrinksSize drinksSize;
+
+    public static int getCount() {
+        return count;
+    }
+
+    public int getPrice() {
+        return price;
+    }
 
     public DrinksBuilder makeName(DrinksNames drinksNames) {
         this.drinksNames = drinksNames;
@@ -19,7 +27,7 @@ public class DrinksBuilder {
 
     public DrinksBuilder makeSize(DrinksSize drinksSize) {
         this.drinksSize = drinksSize;
-        switch (drinksSize){
+        switch (drinksSize) {
             case LOW:
                 price *= drinksSize.value();
                 break;
@@ -39,31 +47,34 @@ public class DrinksBuilder {
         return this;
     }
 
+    public DrinksSize getDrinksSize() {
+        return drinksSize;
+    }
 
     public DrinksBuilder makePrice() {
         switch (drinksNames) {
-            case Beer:
+            case BEER:
                 price = 30;
                 break;
-            case Vine:
+            case VINE:
                 price = 50;
                 break;
-            case Cocacola:
+            case COCACOLA:
                 price = 20;
                 break;
-            case Fanta:
+            case FANTA:
                 price = 20;
                 break;
-            case Sprite:
+            case SPRITE:
                 price = 20;
                 break;
-            case Pepsi:
+            case PEPSI:
                 price = 20;
                 break;
-            case Juice:
+            case JUICE:
                 price = 25;
                 break;
-            case Coffee:
+            case COFFEE:
                 price = 21;
                 break;
             default:

@@ -4,14 +4,30 @@ package pizza;
  * Created by Andriy on 1/12/2016.
  */
 public class PizzaBuilder {
-    public static int count;
-    public String name = "pizza";
-    public int size = 30;
-    public String info = ": Cheese + Salami + Papper ";
-    public int price = 50;
-    public String addons = " ";
-    public PizzasAddons pizzasAddons;
-    public PizzasNames pizzasNames;
+    private static int count;
+    private String name = "pizza";
+    private int size = 30;
+    private String info = ": Cheese + Salami + Papper ";
+    private int price = 50;
+    private String addons = " ";
+    private PizzasAddons pizzasAddons;
+    private PizzasNames pizzasNames;
+
+    public static int getCount() {
+        return count;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getInfo() {
+        return info;
+    }
 
     public PizzaBuilder makeName(PizzasNames pizzasNames) {
         this.pizzasNames = pizzasNames;
@@ -24,19 +40,19 @@ public class PizzaBuilder {
 
     public PizzaBuilder makeInfo() {
         switch (pizzasNames) {
-            case Capricciosa:
+            case CAPRICCIOSA:
                 info = info + "+ Ham + Mushrooms";
                 break;
-            case Salami:
+            case SALAMI:
                 info = info + "+ Sausage";
                 break;
-            case Vegeteriana:
+            case VEGETERIANA:
                 info = ": Cheese + Pepper + Corn + Tomato";
                 break;
-            case Mexicano:
+            case MEXICANO:
                 info = info + "+ Chili Pepper + Tomato + Onion";
                 break;
-            case Papperoni:
+            case PAPPERONI:
                 info = info + "+ Red Hot Chili Pepper + Onion + Bacon";
                 break;
             default:
@@ -56,19 +72,19 @@ public class PizzaBuilder {
         switch (size) {
             case 30:
                 switch (pizzasNames) {
-                    case Capricciosa:
+                    case CAPRICCIOSA:
                         price = 60;
                         break;
-                    case Salami:
+                    case SALAMI:
                         price = 65;
                         break;
-                    case Vegeteriana:
+                    case VEGETERIANA:
                         price = 70;
                         break;
-                    case Mexicano:
+                    case MEXICANO:
                         price = 63;
                         break;
-                    case Papperoni:
+                    case PAPPERONI:
                         price = 55;
                         break;
                     default:
@@ -78,19 +94,19 @@ public class PizzaBuilder {
                 break;
             case 50:
                 switch (pizzasNames) {
-                    case Capricciosa:
+                    case CAPRICCIOSA:
                         price = 80;
                         break;
-                    case Salami:
+                    case SALAMI:
                         price = 85;
                         break;
-                    case Vegeteriana:
+                    case VEGETERIANA:
                         price = 80;
                         break;
-                    case Mexicano:
+                    case MEXICANO:
                         price = 83;
                         break;
-                    case Papperoni:
+                    case PAPPERONI:
                         price = 85;
                         break;
                     default:
@@ -111,19 +127,19 @@ public class PizzaBuilder {
         this.addons += " " + pizzasAddons;
         this.pizzasAddons = pizzasAddons;
         switch (pizzasAddons) {
-            case Cheese:
+            case CHEESE:
                 price += 10;
                 break;
-            case Sausage:
+            case SAUSAGE:
                 price += 15;
                 break;
-            case Spice:
+            case SPICE:
                 price += 5;
                 break;
-            case Fruits:
+            case FRUITS:
                 price += 15;
                 break;
-            case Tomato:
+            case TOMATO:
                 price += 7;
                 break;
             default:

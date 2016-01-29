@@ -9,19 +9,19 @@ import org.testng.annotations.Test;
 public class DrinksTest {
 
     @Test(groups = {"drinks"})
-    public void testMakePriceDrinks(){
+    public void testMakePriceDrinks() {
         DrinksBuilder drinksBuilder = new DrinksBuilder();
         System.err.println("Testing makePriceDrinks");
-        drinksBuilder.drinksNames = DrinksNames.Beer;
+        drinksBuilder.makeName(DrinksNames.BEER);
         drinksBuilder.makePrice();
-        Assert.assertEquals(30, drinksBuilder.price);
+        Assert.assertEquals(30, drinksBuilder.getPrice());
     }
 
     @Test(groups = {"drinks"})
-    public void testMakeSizeDrinks(){
+    public void testMakeSizeDrinks() {
         DrinksBuilder drinksBuilder = new DrinksBuilder();
         System.err.println("Testing makeSizeDrinks");
         drinksBuilder.makeSize(DrinksSize.BIG);
-        Assert.assertEquals(DrinksSize.BIG, drinksBuilder.drinksSize);
+        Assert.assertEquals(DrinksSize.BIG, drinksBuilder.getDrinksSize());
     }
 }

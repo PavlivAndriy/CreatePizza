@@ -11,7 +11,8 @@ public enum DrinksSize {
     DrinksSize(double value) {
         this.value = value;
     }
-    public double value(){
+
+    public double value() {
         return value;
     }
 }

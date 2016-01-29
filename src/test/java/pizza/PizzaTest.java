@@ -8,21 +8,21 @@ import org.testng.annotations.Test;
  */
 public class PizzaTest {
     @Test(groups = {"pizzas"})
-    public void testMakePricePizza(){
+    public void testMakePricePizza() {
         PizzaBuilder pizzaBuilder = new PizzaBuilder();
         System.err.println("Testing testMakePricePizza");
-        pizzaBuilder.pizzasNames = PizzasNames.Capricciosa;
-        pizzaBuilder.size = 50;
+        pizzaBuilder.makeName(PizzasNames.CAPRICCIOSA);
+        pizzaBuilder.setSize(50);
         pizzaBuilder.makePrice();
-        Assert.assertEquals(80, pizzaBuilder.price);
+        Assert.assertEquals(80, pizzaBuilder.getPrice());
     }
 
     @Test(groups = {"pizzas"})
-    public void testMakeInfoPizza(){
+    public void testMakeInfoPizza() {
         PizzaBuilder pizzaBuilder = new PizzaBuilder();
         System.err.println("Testing testMakeInfoPizza");
-        pizzaBuilder.pizzasNames = PizzasNames.Capricciosa;
+        pizzaBuilder.makeName(PizzasNames.CAPRICCIOSA);
         pizzaBuilder.makeInfo();
-        Assert.assertEquals(": Cheese + Salami + Papper + Ham + Mushrooms", pizzaBuilder.info);
+        Assert.assertEquals(": Cheese + Salami + Papper + Ham + Mushrooms", pizzaBuilder.getInfo());
     }
 }

@@ -50,8 +50,8 @@ public class Check {
         LocalDate date = Data.date;
 
         if (date.getDayOfWeek().equals(DayOfWeek.FRIDAY)
-                & date.getDayOfWeek().equals(DayOfWeek.SATURDAY)
-                & date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+                | date.getDayOfWeek().equals(DayOfWeek.SATURDAY)
+                | date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
             double weekendsPay = 0.05 * Data.totalPrice;
             Data.totalPrice *= 1.05;
             System.out.println("Today there are weekends, and additional payment is: +" + weekendsPay);

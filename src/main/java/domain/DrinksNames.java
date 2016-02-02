@@ -1,4 +1,4 @@
-package drinks;
+package domain;
 
 /**
  * Created by Andriy on 1/24/2016.

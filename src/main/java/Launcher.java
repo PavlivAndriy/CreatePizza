@@ -1,14 +1,16 @@
-import money.Calculation;
-import money.Creator;
+import io.Creator;
+import service.Calculation;
 
 /**
  * Created by Andriy on 1/24/2016.
  */
 public class Launcher {
     public static void main(String[] args) {
-        Creator.makePizza();
-        Creator.makeDrinks();
-        Calculation.storeInfo();
+        Creator creator = new Creator();
+        Calculation calculation = new Calculation();
+        creator.makePizza();
+        creator.makeDrinks();
+        calculation.storeInfo();
 
     }
 }

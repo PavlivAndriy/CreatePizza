@@ -1,5 +1,8 @@
-package drinks;
+package domain;
 
+import domain.Drinks;
+import domain.DrinksNames;
+import domain.DrinksSize;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -10,7 +13,8 @@ public class DrinksTest {
 
     @Test(groups = {"drinks"})
     public void testMakePriceDrinks() {
-        DrinksBuilder drinksBuilder = new DrinksBuilder();
+        Drinks drinks = new Drinks();
+        Drinks.DrinksBuilder drinksBuilder = new Drinks.DrinksBuilder();
         System.err.println("Testing makePriceDrinks");
         drinksBuilder.makeName(DrinksNames.BEER);
         drinksBuilder.makePrice();
@@ -19,7 +23,8 @@ public class DrinksTest {
 
     @Test(groups = {"drinks"})
     public void testMakeSizeDrinks() {
-        DrinksBuilder drinksBuilder = new DrinksBuilder();
+        Drinks drinks = new Drinks();
+        Drinks.DrinksBuilder drinksBuilder = new Drinks.DrinksBuilder();
         System.err.println("Testing makeSizeDrinks");
         drinksBuilder.makeSize(DrinksSize.BIG);
         Assert.assertEquals(DrinksSize.BIG, drinksBuilder.getDrinksSize());

@@ -17,7 +17,7 @@ public class Calculation {
     public void setDiscount(String discount) {
         double price = creator.getTotalPrice();
         LocalDate date = creator.getDate();
-        if (date.getDayOfYear() == 7
+        if ((date.getDayOfYear() == 7)
                 | (date.getMonth().equals(Month.AUGUST) & date.getDayOfMonth() == 24)
                 | (date.getDayOfYear() == 256)) {
             price *= 0.5;

@@ -8,8 +8,7 @@ public class Drinks {
     private DrinksNames drinksNames;
     private DrinksSize drinksSize;
     private int price;
-    private DrinksBuilder drinksBuilder = new DrinksBuilder();
-    private int count = drinksBuilder.getCount();
+    private int count;
 
     public void setName(DrinksNames drinksNames) {
         this.drinksNames = drinksNames;

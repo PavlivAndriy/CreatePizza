@@ -1,5 +1,5 @@
 import io.Creator;
-import service.Calculation;
+import service.CalculationService;
 
 /**
  * Created by Andriy on 1/24/2016.
@@ -7,10 +7,10 @@ import service.Calculation;
 public class Launcher {
     public static void main(String[] args) {
         Creator creator = new Creator();
-        Calculation calculation = new Calculation();
+        CalculationService calculationService = new CalculationService();
         creator.makePizza();
         creator.makeDrinks();
-        calculation.storeInfo();
+        calculationService.storeInfo();
 
     }
 }

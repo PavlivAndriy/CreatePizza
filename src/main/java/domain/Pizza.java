@@ -9,8 +9,8 @@ public class Pizza {
     private int size;
     private String info;
     private int price;
-    private String add = "";
-    private int count = pizzaBuilder.getCount();
+    private String addonsInformation = "";
+    private int count;
     private PizzasAddons pizzasAddons;
 
     public static int getCount() {
@@ -33,9 +33,9 @@ public class Pizza {
         this.info = info;
     }
 
-    public void setAdd(PizzasAddons pizzasAddons) {
+    public void setAddonsInformation(PizzasAddons pizzasAddons) {
         this.pizzasAddons = pizzasAddons;
-        this.add += " " + pizzasAddons;
+        this.addonsInformation += " " + pizzasAddons;
     }
 
     public int getPrice() {
@@ -43,12 +43,12 @@ public class Pizza {
     }
 
     public void setPrice(int price) {
-        this.price = price;
+        this.price += price;
     }
 
     @Override
     public String toString() {
-        return count + " " + this.getClass().getSimpleName() + " " + this.pizzasNames + " " + this.info + ". Addons : " + add + ". Size is : "
+        return count + " " + this.getClass().getSimpleName() + " " + this.pizzasNames + " " + this.info + ". Addons : " + addonsInformation + ". Size is : "
                 + size + " sm. Price is: " + price + " hrn";
     }
 
@@ -57,7 +57,7 @@ public class Pizza {
         private String name = "pizza";
         private int size = 30;
         private String info = ": Cheese + Salami + Papper ";
-        private int price = 50;
+        private int price;
         private String addons = " ";
         private PizzasAddons pizzasAddons;
         private PizzasNames pizzasNames;
@@ -125,7 +125,7 @@ public class Pizza {
                             price = 60;
                             break;
                         case SALAMI:
-                            price = 65;
+                            price += 65;
                             break;
                         case VEGETERIANA:
                             price = 70;
@@ -204,7 +204,7 @@ public class Pizza {
             pizza.setName(pizzasNames);
             pizza.setInfo(info);
             pizza.setSize(size);
-            pizza.setAdd(pizzasAddons);
+            pizza.setAddonsInformation(pizzasAddons);
             pizza.setCount(count);
             if (count % 3 == 0) {
                 pizza.setPrice(0);

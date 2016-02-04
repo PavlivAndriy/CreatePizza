@@ -3,100 +3,105 @@ package service;
 import domain.Drinks;
 import domain.Pizza;
 import io.Creator;
-import io.Data;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 
 public class CalculationService {
-    public static Creator creator = new Creator();
-    public static Data data = new Data();
+    private Creator creator = new Creator();
+    private double pizzaTotalPrice;
+    private double drinksTotalPrice;
+
+    public Creator getCreator() {
+        return creator;
+    }
+
     public void setDiscount(String discount) {
-        double price = data.getTotalPrice();
-        LocalDate date = data.getDate();
+        double price = creator.getData().getTotalPrice();
+        LocalDate date = creator.getData().getDate();
         if ((date.getDayOfYear() == 7)
                 | (date.getMonth().equals(Month.AUGUST) & date.getDayOfMonth() == 24)
                 | (date.getDayOfYear() == 256)) {
             price *= 0.5;
-            data.setTotalPrice(price);
-            System.out.println("Your economy, because of hollidays: " + data.getTotalPrice());
+            creator.getData().setTotalPrice(price);
+            System.out.println("Your economy, because of hollidays: " + creator.getData().getTotalPrice());
             discount = "No";
         } else {
             System.out.println("Available economy days are: Jannuary 7th, August 24th, 256 day of year");
         }
 
         if (discount.equalsIgnoreCase("Yes")) {
-            double discountPay = data.getTotalPrice() * 0.1;
+            double discountPay = creator.getData().getTotalPrice() * 0.1;
             price *= 0.9;
-            data.setTotalPrice(price);
+            creator.getData().setTotalPrice(price);
             System.out.println("Your discount is: " + discountPay);
         } else if (discount.equalsIgnoreCase("No")) {
             price *= 1;
-            data.setTotalPrice(price);
+            creator.getData().setTotalPrice(price);
         }
 
     }
 
     public void check() {
-        LocalDate date = data.getDate();
-        double price = data.getTotalPrice();
+        LocalDate date = creator.getData().getDate();
+        double price = creator.getData().getTotalPrice();
         if (date.getMonth().equals(Month.SEPTEMBER) & date.getDayOfMonth() < 8 & date.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
             price *= 1;
-            data.setTotalPrice(price);
+            creator.getData().setTotalPrice(price);
             System.out.println("Today you don't need to pay tips");
         } else {
-            double tips = 0.05 * data.getTotalPrice();
+            double tips = 0.05 * creator.getData().getTotalPrice();
             price *= 1.05;
-            data.setTotalPrice(price);
+            creator.getData().setTotalPrice(price);
             System.out.println("Today your pay for tips is: +" + tips);
         }
     }
 
     public void weekends() {
-        LocalDate date = data.getDate();
-        double price = data.getTotalPrice();
+        LocalDate date = creator.getData().getDate();
+        double price = creator.getData().getTotalPrice();
         if (date.getDayOfWeek().equals(DayOfWeek.FRIDAY)
                 | date.getDayOfWeek().equals(DayOfWeek.SATURDAY)
                 | date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-            double weekendsPay = 0.05 * data.getTotalPrice();
+            double weekendsPay = 0.05 * creator.getData().getTotalPrice();
             price *= 1.05;
-            data.setTotalPrice(price);
+            creator.getData().setTotalPrice(price);
             System.out.println("Today there are weekends, and additional payment is: +" + weekendsPay);
         }
     }
 
     public void storeInfo() {
-
         pizzaCost();
         drinksCost();
-        data.setTotalPrice(data.getDrinksPrice() + data.getPizzaPrice());
-        if (data.getTotalPrice() == 0) {
+        creator.getData().setTotalPrice(creator.getData().getDrinksPrice() + creator.getData().getPizzaPrice());
+        if (creator.getData().getTotalPrice() == 0) {
             System.err.println("Thank you for visiting our store");
         } else {
             creator.finalPrice();
-            System.out.println("YOUR FINAL PRICE IS: " + data.getTotalPrice());
+            check();
+            weekends();
+            setDiscount(creator.getDiscount());
+            System.out.println("YOUR FINAL PRICE IS: " + creator.getData().getTotalPrice());
         }
     }
 
     public void pizzaCost() {
-        for (int i = 0; i < Pizza.PizzaBuilder.getCount(); i++) {
-            double pizzas = 0;
-            pizzas += data.getPizzas().get(i).getPrice();
-            data.setPizzaPrice(pizzas);
+        for (int i = 0; i < creator.getPizzaBuilder().getCount(); i++) {
+            pizzaTotalPrice += creator.getData().getPizzas().get(i).getPrice();
+            creator.getData().setPizzaPrice(pizzaTotalPrice);
         }
-        for (Pizza p : data.getPizzas()) {
+        for (Pizza p : creator.getData().getPizzas()) {
             System.out.println(p);
         }
     }
 
     public void drinksCost() {
-        for (int i = 0; i < Drinks.DrinksBuilder.getCount(); i++) {
-            double drinksCount = 0;
-            drinksCount += data.getDrinks().get(i).getPrice();
-            data.setDrinksPrice(drinksCount);
+        for (int i = 0; i < creator.getDrinksBuilder().getCount(); i++) {
+            drinksTotalPrice += creator.getData().getDrinks().get(i).getPrice();
+            creator.getData().setDrinksPrice(drinksTotalPrice);
         }
-        for (Drinks dr : data.getDrinks()) {
+        for (Drinks dr : creator.getData().getDrinks()) {
             System.out.println(dr);
         }
     }

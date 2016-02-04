@@ -2,15 +2,28 @@ package io;
 
 
 import domain.*;
-import service.CalculationService;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
 
 public class Creator {
-    Data data = new Data();
-    CalculationService calculationService = new CalculationService();
+    private Data data = new Data();
+    private String discount;
+    private Pizza.PizzaBuilder pizzaBuilder = new Pizza.PizzaBuilder();
+    private Drinks.DrinksBuilder drinksBuilder = new Drinks.DrinksBuilder();
+
+    public Pizza.PizzaBuilder getPizzaBuilder() {
+        return pizzaBuilder;
+    }
+
+    public Drinks.DrinksBuilder getDrinksBuilder() {
+        return drinksBuilder;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
 
     public Data getData() {
         return data;
@@ -20,11 +33,11 @@ public class Creator {
         System.out.println("Please enter the date when you want to buy pizza or drinks in format : Year-month-day");
         try {
             data.setDate(LocalDate.parse(data.getReader().readLine()));
-            calculationService.check();
+            //calculationService.check();
             System.out.println("Do you have a discount card?");
-            String discount = data.getReader().readLine();
-            calculationService.setDiscount(discount);
-            calculationService.weekends();
+            discount = data.getReader().readLine();
+            //calculationService.setDiscount(discount);
+            //calculationService.weekends();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,7 +51,7 @@ public class Creator {
 
             if (pizzaCount > 0) {
                 for (int j = 0; j < pizzaCount; j++) {
-                    Pizza.PizzaBuilder pizzaBuilder = new Pizza.PizzaBuilder();
+
                     System.out.println("Please choose your pizza.");
                     System.out.println("1. Enter name of pizza. Available pizzas are: CAPRICCIOSA, SALAMI, VEGETERIANA, MEXICANO, PAPPERONI");
                     pizzaBuilder = pizzaBuilder.makeName(PizzasNames.valueOf(data.getReader().readLine()));
@@ -60,8 +73,8 @@ public class Creator {
                     } else {
                         System.out.println("Your pizza is without addons");
                     }
-                    CalculationService.data.getPizzas().add(pizzaBuilder.build());
-                    System.out.println(CalculationService.data.getPizzas().get(j));
+                    data.getPizzas().add(pizzaBuilder.build());
+                    System.out.println(data.getPizzas().get(j));
                 }
             } else {
                 System.err.println("As we see you don't want pizza, your number of pizzas is: " + pizzaCount);
@@ -71,6 +84,7 @@ public class Creator {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
+            e.printStackTrace();
             System.err.println("Please type int number of pizzas");
             System.exit(0);
         }
@@ -84,7 +98,7 @@ public class Creator {
             drinksCount = Integer.parseInt(data.getReader().readLine());
             if (drinksCount > 0) {
                 for (int j = 0; j < drinksCount; j++) {
-                    Drinks.DrinksBuilder drinksBuilder = new Drinks.DrinksBuilder();
+
                     System.out.println("Please choose your drinks.");
                     System.out.println("1. Enter the name of drink. Please choose from following : BEER, VINE, COCACOLA, FANTA, SPRITE, JUICE, COFFEE, PEPSI");
                     drinksBuilder = drinksBuilder.makeName(DrinksNames.valueOf(data.getReader().readLine())).makePrice();
@@ -95,9 +109,8 @@ public class Creator {
                         System.err.println("Please type double number.");
                         System.exit(0);
                     }
-                    CalculationService.data.getDrinks().add(drinksBuilder.build());
-
-                    System.out.println(CalculationService.data.getDrinks());
+                    data.getDrinks().add(drinksBuilder.build());
+                    System.out.println(data.getDrinks());
                 }
             } else {
                 System.err.println("As we see you don't want drinks, your number of drinks is :" + drinksCount);
@@ -105,6 +118,7 @@ public class Creator {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
+            e.printStackTrace();
             System.err.println("Please type int number of drinks.");
             System.exit(0);
         }

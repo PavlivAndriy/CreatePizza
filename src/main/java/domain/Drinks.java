@@ -18,10 +18,6 @@ public class Drinks {
         this.drinksSize = drinksSize;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public void setCount(int count) {
         this.count = count;
     }
@@ -30,20 +26,24 @@ public class Drinks {
         return price;
     }
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return count + " " + this.getClass().getSimpleName() + ": " + this.drinksNames + " " + this.drinksSize.value() + "L Price: " + this.price + " hrn";
     }
 
     public static class DrinksBuilder {
-        private static int count = 0;
+        private int count;
         private String name;
         private double size;
-        private int price = 0;
+        private int price;
         private DrinksNames drinksNames;
         private DrinksSize drinksSize;
 
-        public static int getCount() {
+        public int getCount() {
             return count;
         }
 

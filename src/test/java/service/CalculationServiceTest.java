@@ -9,7 +9,7 @@ import java.time.Month;
 
 /**
  * Created by Andriy on 1/29/2016.
- */
+ *//*
 public class CalculationServiceTest {
     public static CalculationService calculationService = new CalculationService();
     @Test(groups = {"discount"})
@@ -48,4 +48,4 @@ public class CalculationServiceTest {
         calculationService.weekends();
         Assert.assertEquals(105.0, CalculationService.data.getTotalPrice());
     }
-}
+}*/

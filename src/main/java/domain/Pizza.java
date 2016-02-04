@@ -4,7 +4,6 @@ package domain;
  * Created by Andriy on 1/12/2016.
  */
 public class Pizza {
-    public PizzaBuilder pizzaBuilder = new PizzaBuilder();
     private PizzasNames pizzasNames;
     private int size;
     private String info;
@@ -43,7 +42,7 @@ public class Pizza {
     }
 
     public void setPrice(int price) {
-        this.price += price;
+        this.price = price;
     }
 
     @Override
@@ -53,7 +52,7 @@ public class Pizza {
     }
 
     public static class PizzaBuilder {
-        private static int count;
+        private int count;
         private String name = "pizza";
         private int size = 30;
         private String info = ": Cheese + Salami + Papper ";
@@ -62,7 +61,7 @@ public class Pizza {
         private PizzasAddons pizzasAddons;
         private PizzasNames pizzasNames;
 
-        public static int getCount() {
+        public int getCount() {
             return count;
         }
 
@@ -125,7 +124,7 @@ public class Pizza {
                             price = 60;
                             break;
                         case SALAMI:
-                            price += 65;
+                            price = 65;
                             break;
                         case VEGETERIANA:
                             price = 70;

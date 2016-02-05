@@ -1,6 +1,9 @@
 package domain;
 
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * Created by Andriy on 1/14/2016.
  */
@@ -32,7 +35,7 @@ public class Drinks {
 
     @Override
     public String toString() {
-        return count + " " + this.getClass().getSimpleName() + ": " + this.drinksNames + " " + this.drinksSize.value() + "L Price: " + this.price + " hrn";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     public static class DrinksBuilder {

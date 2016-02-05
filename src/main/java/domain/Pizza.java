@@ -1,8 +1,9 @@
 package domain;
 
-/**
- * Created by Andriy on 1/12/2016.
- */
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+
 public class Pizza {
     private PizzasNames pizzasNames;
     private int size;
@@ -47,8 +48,7 @@ public class Pizza {
 
     @Override
     public String toString() {
-        return count + " " + this.getClass().getSimpleName() + " " + this.pizzasNames + " " + this.info + ". Addons : " + addonsInformation + ". Size is : "
-                + size + " sm. Price is: " + price + " hrn";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     public static class PizzaBuilder {

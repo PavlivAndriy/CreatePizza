@@ -1,8 +1,5 @@
 package domain;
 
-import domain.Drinks;
-import domain.DrinksNames;
-import domain.DrinksSize;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

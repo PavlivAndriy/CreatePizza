@@ -5,6 +5,7 @@ import domain.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,6 +90,30 @@ public class Creator {
             Matcher matcher = pattern.matcher(s);
             return matcher.matches();
         } catch (IllegalArgumentException e) {
+        }
+        return false;
+    }
+
+    public boolean regexDate(String s) {
+        try {
+            Pattern pattern = Pattern.compile(String.valueOf(LocalDate.parse(s)));
+            Matcher matcher = pattern.matcher(s);
+            return matcher.matches();
+        } catch (IllegalArgumentException e) {
+        } catch (DateTimeParseException e) {
+
+        }
+        return false;
+    }
+
+    public boolean regexDiscount(String s) {
+        try {
+            Pattern pattern = Pattern.compile("([Y,y](es|ES|eS|Es))|([N,n](o|O))");
+            Matcher matcher = pattern.matcher(s);
+            return matcher.matches();
+        } catch (IllegalArgumentException e) {
+        } catch (DateTimeParseException e) {
+
         }
         return false;
     }
@@ -284,15 +309,55 @@ public class Creator {
 
     }
 
-    public void finalPrice() {
-        System.out.println("Please enter the date when you want to buy pizza or drinks in format : Year-month-day");
+    public LocalDate testDate() {
         try {
-            data.setDate(LocalDate.parse(data.getReader().readLine()));
-            System.out.println("Do you have a discount card?");
-            discount = data.getReader().readLine();
+            System.out.println("Please enter the date when you want to buy pizza or drinks in format : Year-month-day");
+            readerText = data.getReader().readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if (regexDate(readerText)) {
+            data.setDate(LocalDate.parse(readerText));
+            countTries = 3;
+            return null;
+        } else {
+            countTries--;
+            System.err.println("You have " + countTries + " tries left ");
+            if (countTries == 0) {
+                System.exit(0);
+            } else {
+                return testDate();
+            }
+            return null;
+        }
+    }
+
+    public LocalDate testDiscount() {
+        try {
+            System.out.println("Do you have a discount card?");
+            readerText = data.getReader().readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (regexDiscount(readerText)) {
+            discount = readerText;
+            countTries = 3;
+            return null;
+        } else {
+            countTries--;
+            System.err.println("Please type Yes or No.  You have " + countTries + " tries left ");
+            if (countTries == 0) {
+                System.exit(0);
+            } else {
+                return testDiscount();
+            }
+            return null;
+        }
+    }
+
+    public void finalPrice() {
+        testDate();
+        testDiscount();
     }
 
     public void makePizza() {

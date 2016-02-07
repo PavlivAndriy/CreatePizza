@@ -4,6 +4,13 @@ package domain;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Andriy on 1/14/2016.
  */
@@ -12,6 +19,7 @@ public class Drinks {
     private DrinksSize drinksSize;
     private int price;
     private int count;
+
 
     public void setName(DrinksNames drinksNames) {
         this.drinksNames = drinksNames;
@@ -45,6 +53,7 @@ public class Drinks {
         private int price;
         private DrinksNames drinksNames;
         private DrinksSize drinksSize;
+        private Map<String, String> drinksMaps = new HashMap<String, String>();
 
         public int getCount() {
             return count;
@@ -87,37 +96,60 @@ public class Drinks {
         }
 
         public DrinksBuilder makePrice() {
-            switch (drinksNames) {
-                case BEER:
-                    price = 30;
-                    break;
-                case VINE:
-                    price = 50;
-                    break;
-                case COCACOLA:
-                    price = 20;
-                    break;
-                case FANTA:
-                    price = 20;
-                    break;
-                case SPRITE:
-                    price = 20;
-                    break;
-                case PEPSI:
-                    price = 20;
-                    break;
-                case JUICE:
-                    price = 25;
-                    break;
-                case COFFEE:
-                    price = 21;
-                    break;
-                default:
-                    System.err.println("There are not this kind of drink. Please try again, you can choose from following : Beer, Vine, Cocacola, Fanta" +
-                            "Sprite, Pepsi, Coffee, Juice");
-                    System.exit(0);
+            String csvFile = "C:/Users/Andriy/IdeaProjects/CreatePizza/src/main/java/domain/DrinksPrices.csv";
+            String line = "";
+            String csvSplitBy = ",";
+            BufferedReader priceReader = null;
+            try {
+                priceReader = new BufferedReader(new FileReader(csvFile));
+                while ((line = priceReader.readLine()) != null) {
+                    String[] price = line.split(csvSplitBy);
+                    drinksMaps.put(price[0], price[1]);
+                }
+                switch (drinksNames) {
+                    case BEER:
+                        price = Integer.parseInt(drinksMaps.get("BEER"));
+                        break;
+                    case VINE:
+                        price = Integer.parseInt(drinksMaps.get("VINE"));
+                        break;
+                    case COCACOLA:
+                        price = Integer.parseInt(drinksMaps.get("COCACOLA"));
+                        break;
+                    case FANTA:
+                        price = Integer.parseInt(drinksMaps.get("FANTA"));
+                        break;
+                    case SPRITE:
+                        price = Integer.parseInt(drinksMaps.get("SPRITE"));
+                        break;
+                    case PEPSI:
+                        price = Integer.parseInt(drinksMaps.get("PEPSI"));
+                        break;
+                    case JUICE:
+                        price = Integer.parseInt(drinksMaps.get("JUICE"));
+                        break;
+                    case COFFEE:
+                        price = Integer.parseInt(drinksMaps.get("COFFEE"));
+                        break;
+                    default:
+                        System.err.println("There are not this kind of drink. Please try again, " +
+                                "you can choose from following : Beer, Vine, Cocacola, Fanta" +
+                                "Sprite, Pepsi, Coffee, Juice");
+                        System.exit(0);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (priceReader != null) {
+                    try {
+                        priceReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-
             return this;
         }
 

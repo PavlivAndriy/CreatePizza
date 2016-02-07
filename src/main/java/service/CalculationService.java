@@ -7,11 +7,15 @@ import io.Creator;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.Year;
 
 public class CalculationService {
     private Creator creator = new Creator();
     private double pizzaTotalPrice;
     private double drinksTotalPrice;
+    private LocalDate hollidayChristmas = Year.now().atMonth(Month.JANUARY).atDay(7);
+    private LocalDate hollidayIndepenanceDay = Year.now().atMonth(Month.AUGUST).atDay(24);
+    private LocalDate hollidayProgrammerDay = Year.now().atDay(256);
 
     public Creator getCreator() {
         return creator;
@@ -20,9 +24,9 @@ public class CalculationService {
     public void setDiscount(String discount) {
         double price = creator.getData().getTotalPrice();
         LocalDate date = creator.getData().getDate();
-        if ((date.getDayOfYear() == 7)
-                | (date.getMonth().equals(Month.AUGUST) & date.getDayOfMonth() == 24)
-                | (date.getDayOfYear() == 256)) {
+        if ((date == hollidayChristmas)
+                | (date == hollidayIndepenanceDay)
+                | (date == hollidayProgrammerDay)) {
             price *= 0.5;
             creator.getData().setTotalPrice(price);
             System.out.println("Your economy, because of hollidays: " + creator.getData().getTotalPrice());

@@ -3,6 +3,13 @@ package domain;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class Pizza {
     private PizzasNames pizzasNames;
@@ -52,6 +59,7 @@ public class Pizza {
     }
 
     public static class PizzaBuilder {
+        private Map<String, String> pizzaMaps = new HashMap<String, String>();
         private int count;
         private String name = "pizza";
         private int size = 30;
@@ -116,61 +124,6 @@ public class Pizza {
             return this;
         }
 
-        public PizzaBuilder makePrice() {
-            switch (size) {
-                case 30:
-                    switch (pizzasNames) {
-                        case CAPRICCIOSA:
-                            price = 60;
-                            break;
-                        case SALAMI:
-                            price = 65;
-                            break;
-                        case VEGETERIANA:
-                            price = 70;
-                            break;
-                        case MEXICANO:
-                            price = 63;
-                            break;
-                        case PAPPERONI:
-                            price = 55;
-                            break;
-                        default:
-                            System.err.println("This is incorrect pizza's size, please check it again. Available sizes are: 30 , 50");
-                            System.exit(0);
-                    }
-                    break;
-                case 50:
-                    switch (pizzasNames) {
-                        case CAPRICCIOSA:
-                            price = 80;
-                            break;
-                        case SALAMI:
-                            price = 85;
-                            break;
-                        case VEGETERIANA:
-                            price = 80;
-                            break;
-                        case MEXICANO:
-                            price = 83;
-                            break;
-                        case PAPPERONI:
-                            price = 85;
-                            break;
-                        default:
-                            System.err.println("This is incorrect pizza's size, please check it again. Available sizes are: 30 , 50");
-                            System.exit(0);
-                    }
-                    break;
-                default:
-                    System.err.println("This is incorrect pizza's size, please check it again. Available sizes are: 30 , 50");
-                    System.exit(0);
-            }
-
-
-            return this;
-        }
-
         public PizzaBuilder add(PizzasAddons pizzasAddons) {
             this.addons += " " + pizzasAddons;
             this.pizzasAddons = pizzasAddons;
@@ -197,6 +150,106 @@ public class Pizza {
             return this;
         }
 
+        public PizzaBuilder makePrice() {
+            switch (size) {
+                case 30:
+                    String csvFile = "C:/Users/Andriy/IdeaProjects/CreatePizza/src/main/java/domain/Pizza30Prices.csv";
+                    String line = "";
+                    String csvSplitBy = ",";
+                    BufferedReader priceReader = null;
+                    try {
+                        priceReader = new BufferedReader(new FileReader(csvFile));
+                        while ((line = priceReader.readLine()) != null) {
+                            String[] price = line.split(csvSplitBy);
+                            pizzaMaps.put(price[0], price[1]);
+                        }
+                        switch (pizzasNames) {
+                            case CAPRICCIOSA:
+                                price = Integer.parseInt(pizzaMaps.get("CAPRICCIOSA"));
+                                break;
+                            case SALAMI:
+                                price = Integer.parseInt(pizzaMaps.get("SALAMI"));
+                                break;
+                            case VEGETERIANA:
+                                price = Integer.parseInt(pizzaMaps.get("VEGETERIANA"));
+                                break;
+                            case MEXICANO:
+                                price = Integer.parseInt(pizzaMaps.get("MEXICANO"));
+                                break;
+                            case PAPPERONI:
+                                price = Integer.parseInt(pizzaMaps.get("PAPPERONI"));
+                                break;
+                            default:
+                                System.err.println("This is incorrect pizza's size, " +
+                                        "please check it again. Available sizes are: 30 , 50");
+                                System.exit(0);
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (priceReader != null) {
+                            try {
+                                priceReader.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    break;
+                case 50:
+                    csvFile = "C:/Users/Andriy/IdeaProjects/CreatePizza/src/main/java/domain/Pizza50Prices.csv";
+                    csvSplitBy = ",";
+                    priceReader = null;
+                    try {
+                        priceReader = new BufferedReader(new FileReader(csvFile));
+                        while ((line = priceReader.readLine()) != null) {
+                            String[] price = line.split(csvSplitBy);
+                            pizzaMaps.put(price[0], price[1]);
+                        }
+                        switch (pizzasNames) {
+                            case CAPRICCIOSA:
+                                price = Integer.parseInt(pizzaMaps.get("CAPRICCIOSA"));
+                                break;
+                            case SALAMI:
+                                price = Integer.parseInt(pizzaMaps.get("SALAMI"));
+                                break;
+                            case VEGETERIANA:
+                                price = Integer.parseInt(pizzaMaps.get("VEGETERIANA"));
+                                break;
+                            case MEXICANO:
+                                price = Integer.parseInt(pizzaMaps.get("MEXICANO"));
+                                break;
+                            case PAPPERONI:
+                                price = Integer.parseInt(pizzaMaps.get("PAPPERONI"));
+                                break;
+                            default:
+                                System.err.println("This is incorrect pizza's size, " +
+                                        "please check it again. Available sizes are: 30 , 50");
+                                System.exit(0);
+                        }
+                        break;
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (priceReader != null) {
+                            try {
+                                priceReader.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                default:
+                    System.err.println("This is incorrect pizza's size, " +
+                            "please check it again. Available sizes are: 30 , 50");
+                    System.exit(0);
+            }
+            return this;
+        }
 
         public Pizza build() {
             Pizza pizza = new Pizza();

@@ -112,7 +112,8 @@ public class Pizza {
                     info = info + "+ Red Hot Chili Pepper + Onion + Bacon";
                     break;
                 default:
-                    System.err.println("This is incorrect pizza's name, please check it again. Available pizzas are: Capricciosa, Salami," +
+                    System.err.println("This is incorrect pizza's name, please check it again." +
+                            " Available pizzas are: Capricciosa, Salami," +
                             "Vegeteriana, Mexicano, Papperoni");
                     System.exit(0);
             }
@@ -153,7 +154,7 @@ public class Pizza {
         public PizzaBuilder makePrice() {
             switch (size) {
                 case 30:
-                    String csvFile = "C:/Users/Andriy/IdeaProjects/CreatePizza/src/main/java/domain/Pizza30Prices.csv";
+                    String csvFile = "./src/main/resources/Pizza30Prices.csv";
                     String line = "";
                     String csvSplitBy = ",";
                     BufferedReader priceReader = null;
@@ -185,7 +186,28 @@ public class Pizza {
                                 System.exit(0);
                         }
                     } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+                        switch (pizzasNames) {
+                            case CAPRICCIOSA:
+                                price = 60;
+                                break;
+                            case SALAMI:
+                                price = 65;
+                                break;
+                            case VEGETERIANA:
+                                price = 70;
+                                break;
+                            case MEXICANO:
+                                price = 63;
+                                break;
+                            case PAPPERONI:
+                                price = 55;
+                                break;
+                            default:
+                                System.err.println("This is incorrect pizza's size, " +
+                                        "please check it again. Available sizes are: 30 , 50");
+                                System.exit(0);
+                        }
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
@@ -199,7 +221,7 @@ public class Pizza {
                     }
                     break;
                 case 50:
-                    csvFile = "C:/Users/Andriy/IdeaProjects/CreatePizza/src/main/java/domain/Pizza50Prices.csv";
+                    csvFile = "./src/main/resources/Pizza50Prices.csv";
                     csvSplitBy = ",";
                     priceReader = null;
                     try {
@@ -231,7 +253,28 @@ public class Pizza {
                         }
                         break;
                     } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+                        System.err.println("ERROR");
+                        switch (pizzasNames) {
+                            case CAPRICCIOSA:
+                                price = 80;
+                                break;
+                            case SALAMI:
+                                price = 85;
+                                break;
+                            case VEGETERIANA:
+                                price = 80;
+                                break;
+                            case MEXICANO:
+                                price = 83;
+                                break;
+                            case PAPPERONI:
+                                price = 85;
+                                break;
+                            default:
+                                System.err.println("This is incorrect pizza's size, " +
+                                        "please check it again. Available sizes are: 30 , 50");
+                                System.exit(0);
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {

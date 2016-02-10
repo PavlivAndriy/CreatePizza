@@ -96,7 +96,7 @@ public class Drinks {
         }
 
         public DrinksBuilder makePrice() {
-            String csvFile = "C:/Users/Andriy/IdeaProjects/CreatePizza/src/main/java/domain/DrinksPrices.csv";
+            String csvFile = "./src/main/resources/DrinksPrices.csv";
             String line = "";
             String csvSplitBy = ",";
             BufferedReader priceReader = null;
@@ -138,7 +138,37 @@ public class Drinks {
                         System.exit(0);
                 }
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                switch (drinksNames) {
+                    case BEER:
+                        price = 30;
+                        break;
+                    case VINE:
+                        price = 50;
+                        break;
+                    case COCACOLA:
+                        price = 20;
+                        break;
+                    case FANTA:
+                        price = 20;
+                        break;
+                    case SPRITE:
+                        price = 20;
+                        break;
+                    case PEPSI:
+                        price = 20;
+                        break;
+                    case JUICE:
+                        price = 25;
+                        break;
+                    case COFFEE:
+                        price = 21;
+                        break;
+                    default:
+                        System.err.println("There are not this kind of drink. Please try again, " +
+                                "you can choose from following : Beer, Vine, Cocacola, Fanta" +
+                                "Sprite, Pepsi, Coffee, Juice");
+                        System.exit(0);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {

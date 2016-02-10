@@ -24,9 +24,9 @@ public class CalculationService {
     public void setDiscount(String discount) {
         double price = creator.getData().getTotalPrice();
         LocalDate date = creator.getData().getDate();
-        if ((date == hollidayChristmas)
-                | (date == hollidayIndepenanceDay)
-                | (date == hollidayProgrammerDay)) {
+        if ((date.equals(hollidayChristmas))
+                | (date.equals(hollidayIndepenanceDay))
+                | (date.equals(hollidayProgrammerDay))) {
             price *= 0.5;
             creator.getData().setTotalPrice(price);
             System.out.println("Your economy, because of hollidays: " + creator.getData().getTotalPrice());

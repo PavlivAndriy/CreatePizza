@@ -44,7 +44,7 @@ public class CalculationServiceTest {
 
         System.err.println("Testing testWeekends");
         data.setTotalPrice(100);
-        data.setDate(LocalDate.of(2016, Month.JANUARY, 23));
+        data.setDate(LocalDate.of(2016, Month.JANUARY, 01));
         calculationService.weekends();
         Assert.assertEquals(105.0, data.getTotalPrice());
     }

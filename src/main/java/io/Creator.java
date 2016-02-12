@@ -120,6 +120,7 @@ public class Creator {
 
     public int testPizzaCount() {
         System.out.println("Please enter how many pizzas do you want:");
+        for (int i = 0; i < 3; i++){
         try {
             readerText = data.getReader().readLine();
         } catch (IOException e) {
@@ -134,225 +135,219 @@ public class Creator {
             System.err.println("You can choose from 0 to 99 pizzas. You have " + countTries + " tries left ");
             if (countTries == 0) {
                 System.exit(0);
-            } else {
-                return testPizzaCount();
             }
-            return 0;
         }
-
+        }
+        return 0;
     }
 
     public PizzasNames testPizzasNamesEnum() {
-        try {
-            System.out.println("Please choose your pizza.");
-            System.out.println("1. Enter name of pizza. Available pizzas are: CAPRICCIOSA, SALAMI, VEGETERIANA, MEXICANO, PAPPERONI");
-            readerText = data.getReader().readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (regexPizzaName(readerText)) {
-            pizzaBuilder = pizzaBuilder.makeName(PizzasNames.valueOf(readerText));
-            countTries = 3;
-            return null;
-        } else {
-            countTries--;
-            System.err.println("You have " + countTries + " tries left ");
-            if (countTries == 0) {
-                System.exit(0);
-            } else {
-                return testPizzasNamesEnum();
+        for (int i = 0; i < 3; i++) {
+            try {
+                System.out.println("Please choose your pizza.");
+                System.out.println("1. Enter name of pizza. Available pizzas are: CAPRICCIOSA, SALAMI, VEGETERIANA, MEXICANO, PAPPERONI");
+                readerText = data.getReader().readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return null;
+            if (regexPizzaName(readerText)) {
+                pizzaBuilder = pizzaBuilder.makeName(PizzasNames.valueOf(readerText));
+                countTries = 3;
+                return null;
+            } else {
+                countTries--;
+                System.err.println("You have " + countTries + " tries left ");
+                if (countTries == 0) {
+                    System.exit(0);
+                }
+            }
         }
-
+        return null;
     }
 
     public int testPizzaSize() {
-        System.out.println("2. Enter the size of pizza: Available sizes of pizza are: 30 and 50");
-        try {
-            readerText = data.getReader().readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (regexPizzaSize(readerText)) {
-            pizzaBuilder = pizzaBuilder.makeInfo().makeSize(Integer.parseInt(readerText)).makePrice();
-            countTries = 3;
-            return 1;
-        } else {
-            countTries--;
-            System.err.println("You have " + countTries + " tries left ");
-            if (countTries == 0) {
-                System.exit(0);
-            } else {
-                return testPizzaSize();
+        for (int i = 0; i < 3; i++) {
+            System.out.println("2. Enter the size of pizza: Available sizes of pizza are: 30 and 50");
+            try {
+                readerText = data.getReader().readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return 0;
+            if (regexPizzaSize(readerText)) {
+                pizzaBuilder = pizzaBuilder.makeInfo().makeSize(Integer.parseInt(readerText)).makePrice();
+                countTries = 3;
+                return 1;
+            } else {
+                countTries--;
+                System.err.println("You have " + countTries + " tries left ");
+                if (countTries == 0) {
+                    System.exit(0);
+                }
+            }
         }
+        return 0;
     }
 
     public int testPizzaAddonsCount() {
-        System.out.println("3. If you want some addons, please enter the number of addons: ");
-        try {
-            readerText = data.getReader().readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (regexAddons(readerText)) {
-            data.setAddons(Integer.parseInt(readerText));
-            countTries = 3;
-            return 1;
-        } else {
-            countTries--;
-            System.err.println("You can choose from 0 to 9 addons. You have " + countTries + " tries left ");
-            if (countTries == 0) {
-                System.exit(0);
-            } else {
-                return testPizzaAddonsCount();
+        for (int i = 0; i < 3; i++) {
+            System.out.println("3. If you want some addons, please enter the number of addons: ");
+            try {
+                readerText = data.getReader().readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return 0;
+            if (regexAddons(readerText)) {
+                data.setAddons(Integer.parseInt(readerText));
+                countTries = 3;
+                return 1;
+            } else {
+                countTries--;
+                System.err.println("You can choose from 0 to 9 addons. You have " + countTries + " tries left ");
+                if (countTries == 0) {
+                    System.exit(0);
+                }
+            }
         }
+        return 0;
     }
 
     public PizzasAddons testPizzaAddonsEnum() {
-        try {
-            System.out.println("4.  Enter the name of addons. Available addons are: CHEESE, SAUSAGE, SPICE, FRUITS, TOMATO");
-            readerText = data.getReader().readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (regexPizzaAddons(readerText)) {
-            pizzaBuilder = pizzaBuilder.add(PizzasAddons.valueOf(readerText));
-            countTries = 3;
-            return null;
-        } else {
-            countTries--;
-            System.err.println("You have " + countTries + " tries left ");
-            if (countTries == 0) {
-                System.exit(0);
-            } else {
-                return testPizzaAddonsEnum();
+        for (int i = 0; i < 3; i++) {
+            try {
+                System.out.println("4.  Enter the name of addons. Available addons are: CHEESE, SAUSAGE, SPICE, FRUITS, TOMATO");
+                readerText = data.getReader().readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return null;
+            if (regexPizzaAddons(readerText)) {
+                pizzaBuilder = pizzaBuilder.add(PizzasAddons.valueOf(readerText));
+                countTries = 3;
+                return null;
+            } else {
+                countTries--;
+                System.err.println("You have " + countTries + " tries left ");
+                if (countTries == 0) {
+                    System.exit(0);
+                }
+            }
         }
+        return null;
     }
 
     public int testDrinksCount() {
-        System.out.println("Please enter how many drinks do you want:");
-        try {
-            readerText = data.getReader().readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (regexCount(readerText)) {
-            drinksCount = Integer.parseInt(readerText);
-            countTries = 3;
-            return 1;
-        } else {
-            countTries--;
-            System.err.println("You can choose from 0 to 99 drinks. You have " + countTries + " tries left ");
-            if (countTries == 0) {
-                System.exit(0);
-            } else {
-                return testDrinksCount();
+        for (int i = 0; i < 3; i++) {
+            System.out.println("Please enter how many drinks do you want:");
+            try {
+                readerText = data.getReader().readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return 0;
+            if (regexCount(readerText)) {
+                drinksCount = Integer.parseInt(readerText);
+                countTries = 3;
+                return 1;
+            } else {
+                countTries--;
+                System.err.println("You can choose from 0 to 99 drinks. You have " + countTries + " tries left ");
+                if (countTries == 0) {
+                    System.exit(0);
+                }
+            }
         }
-
+        return 0;
     }
 
     public DrinksNames testDrinksNamesEnum() {
-        try {
-            System.out.println("Please choose your drinks.");
-            System.out.println("1. Enter the name of drink. Please choose from following : BEER, VINE, COCACOLA, FANTA, SPRITE, JUICE, COFFEE, PEPSI");
-            readerText = data.getReader().readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (regexDrinksName(readerText)) {
-            drinksBuilder = drinksBuilder.makeName(DrinksNames.valueOf(readerText)).makePrice();
-            countTries = 3;
-            return null;
-        } else {
-            countTries--;
-            System.err.println("You have " + countTries + " tries left ");
-            if (countTries == 0) {
-                System.exit(0);
-            } else {
-                return testDrinksNamesEnum();
+        for (int i = 0; i < 3; i++) {
+            try {
+                System.out.println("Please choose your drinks.");
+                System.out.println("1. Enter the name of drink. Please choose from following : BEER, VINE, COCACOLA, FANTA, SPRITE, JUICE, COFFEE, PEPSI");
+                readerText = data.getReader().readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return null;
+            if (regexDrinksName(readerText)) {
+                drinksBuilder = drinksBuilder.makeName(DrinksNames.valueOf(readerText)).makePrice();
+                countTries = 3;
+                return null;
+            } else {
+                countTries--;
+                System.err.println("You have " + countTries + " tries left ");
+                if (countTries == 0) {
+                    System.exit(0);
+                }
+            }
         }
-
+        return null;
     }
 
     public DrinksNames testDrinksSizeEnum() {
-        try {
-            System.out.println("2. Enter the size of drink: Please choose from following sizes: LOW(0.5L), MID1(1L), MID2(1.5L), BIG(2L)");
-            readerText = data.getReader().readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (regexDrinksSize(readerText)) {
-            drinksBuilder = drinksBuilder.makeSize(DrinksSize.valueOf(readerText));
-            countTries = 3;
-            return null;
-        } else {
-            countTries--;
-            System.err.println("You have " + countTries + " tries left ");
-            if (countTries == 0) {
-                System.exit(0);
-            } else {
-                return testDrinksSizeEnum();
+        for (int i = 0; i < 3; i++) {
+            try {
+                System.out.println("2. Enter the size of drink: Please choose from following sizes: LOW(0.5L), MID1(1L), MID2(1.5L), BIG(2L)");
+                readerText = data.getReader().readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return null;
+            if (regexDrinksSize(readerText)) {
+                drinksBuilder = drinksBuilder.makeSize(DrinksSize.valueOf(readerText));
+                countTries = 3;
+                return null;
+            } else {
+                countTries--;
+                System.err.println("You have " + countTries + " tries left ");
+                if (countTries == 0) {
+                    System.exit(0);
+                }
+            }
         }
-
+        return null;
     }
 
     public LocalDate testDate() {
-        try {
-            System.out.println("Please enter the date when you want to buy pizza or drinks in format : Year-month-day");
-            readerText = data.getReader().readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (regexDate(readerText)) {
-            data.setDate(LocalDate.parse(readerText));
-            countTries = 3;
-            return null;
-        } else {
-            countTries--;
-            System.err.println("You have " + countTries + " tries left ");
-            if (countTries == 0) {
-                System.exit(0);
-            } else {
-                return testDate();
+        for (int i = 0; i < 3; i++) {
+            try {
+                System.out.println("Please enter the date when you want to buy pizza or drinks in format : Year-month-day");
+                readerText = data.getReader().readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return null;
+            if (regexDate(readerText)) {
+                data.setDate(LocalDate.parse(readerText));
+                countTries = 3;
+                return null;
+            } else {
+                countTries--;
+                System.err.println("You have " + countTries + " tries left ");
+                if (countTries == 0) {
+                    System.exit(0);
+                }
+            }
         }
+        return null;
     }
 
     public LocalDate testDiscount() {
-        try {
-            System.out.println("Do you have a discount card?");
-            readerText = data.getReader().readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (regexDiscount(readerText)) {
-            discount = readerText;
-            countTries = 3;
-            return null;
-        } else {
-            countTries--;
-            System.err.println("Please type Yes or No.  You have " + countTries + " tries left ");
-            if (countTries == 0) {
-                System.exit(0);
-            } else {
-                return testDiscount();
+        for (int i = 0; i < 3; i++) {
+            try {
+                System.out.println("Do you have a discount card?");
+                readerText = data.getReader().readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return null;
+            if (regexDiscount(readerText)) {
+                discount = readerText;
+                countTries = 3;
+                return null;
+            } else {
+                countTries--;
+                System.err.println("Please type Yes or No.  You have " + countTries + " tries left ");
+                if (countTries == 0) {
+                    System.exit(0);
+                }
+            }
         }
+        return null;
     }
 
     public void finalPrice() {

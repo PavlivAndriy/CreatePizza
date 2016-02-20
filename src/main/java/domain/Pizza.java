@@ -1,8 +1,5 @@
 package domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -55,7 +52,8 @@ public class Pizza {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return count + " " + this.getClass().getSimpleName() + " " + this.pizzasNames + " " + this.info +
+                ". Addons : " + pizzasAddons + ". Size is : " + size + " sm. Price is: " + price + " hrn";
     }
 
     public static class PizzaBuilder {

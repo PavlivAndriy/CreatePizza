@@ -1,5 +1,6 @@
-import io.Creator;
-import service.CalculationService;
+import domain.Data;
+import service.CalculationServiceImpl;
+import service.OrderCalculationImpl;
 
 /**
  * Created by Andriy on 1/24/2016.
@@ -7,13 +8,10 @@ import service.CalculationService;
 public class Launcher {
 
     public static void main(String[] args) {
-        CalculationService calculationService = new CalculationService();
-        Creator creator = calculationService.getCreator();
-        creator.makePizza();
-        creator.makeDrinks();
-        calculationService.storeInfo();
-
-
+        CalculationServiceImpl calculationServiceImpl = new CalculationServiceImpl();
+        OrderCalculationImpl orderCreatorImpl = calculationServiceImpl.getOrderCreatorImpl();
+        Data data = orderCreatorImpl.readData();
+        calculationServiceImpl.buildBill(data);
     }
 }
 

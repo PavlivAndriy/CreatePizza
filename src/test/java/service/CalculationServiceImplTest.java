@@ -12,7 +12,7 @@ import java.time.Month;
 public class CalculationServiceImplTest {
     private CalculationServiceImpl calculationServiceImpl = new CalculationServiceImpl();
     private Data data = calculationServiceImpl.getOrderCreatorImpl().getData();
-    private Bill bill = new Bill();
+    private Bill bill = calculationServiceImpl.getOrderCreatorImpl().getBill();
 
     @Test(groups = {"discount"})
     public void testDiscountHollidays() {

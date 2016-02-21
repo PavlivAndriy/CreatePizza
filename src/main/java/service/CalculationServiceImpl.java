@@ -1,9 +1,6 @@
 package service;
 
-import domain.Bill;
-import domain.Data;
-import domain.Drinks;
-import domain.Pizza;
+import domain.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

@@ -45,8 +45,6 @@ public class Drinks {
 
     public static class DrinksBuilder {
         private int count;
-        private String name;
-        private double size;
         private int price;
         private DrinksNames drinksNames;
         private DrinksSize drinksSize;
@@ -54,10 +52,6 @@ public class Drinks {
 
         public int getCount() {
             return count;
-        }
-
-        public int getPrice() {
-            return price;
         }
 
         public DrinksBuilder makeName(DrinksNames drinksNames) {
@@ -86,10 +80,6 @@ public class Drinks {
                     System.exit(0);
             }
             return this;
-        }
-
-        public DrinksSize getDrinksSize() {
-            return drinksSize;
         }
 
         public DrinksBuilder makePrice() {

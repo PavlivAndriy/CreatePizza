@@ -8,8 +8,8 @@ public class Bill {
     private double pizzaPrice;
     private double drinksPrice;
     private double totalPrice;
-    private List<Pizza> pizzas = new ArrayList<>();
-    private List<Drinks> drinks = new ArrayList<>();
+    private List<Pizza> pizzas = new ArrayList();
+    private List<Drinks> drinks = new ArrayList();
 
     public double getTotalPrice() {
         return totalPrice;
@@ -45,6 +45,7 @@ public class Bill {
 
     @Override
     public String toString() {
+        System.out.println("Your order is :");
         for (Pizza p : pizzas) {
             System.out.println(p);
         }

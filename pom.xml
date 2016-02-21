@@ -49,10 +49,15 @@
                     </archive>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <!-- put your configurations here -->
+                </configuration>
+            </plugin>
         </plugins>
-
     </build>
-
 
 </project>

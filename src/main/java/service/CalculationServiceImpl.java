@@ -11,7 +11,7 @@ import java.time.Month;
 import java.time.Year;
 
 public class CalculationServiceImpl implements CalculationService {
-    private OrderCalculationImpl orderCreatorImpl = new OrderCalculationImpl();
+    private OrderCreatorImpl orderCreatorImpl = new OrderCreatorImpl();
     private double pizzaTotalPrice;
     private double drinksTotalPrice;
     private Bill bill = orderCreatorImpl.getBill();
@@ -19,7 +19,7 @@ public class CalculationServiceImpl implements CalculationService {
     private LocalDate hollidayIndepenanceDay = Year.now().atMonth(Month.AUGUST).atDay(24);
     private LocalDate hollidayProgrammerDay = Year.now().atDay(256);
 
-    public OrderCalculationImpl getOrderCreatorImpl() {
+    public OrderCreatorImpl getOrderCreatorImpl() {
         return orderCreatorImpl;
     }
 

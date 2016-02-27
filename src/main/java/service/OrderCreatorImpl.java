@@ -1,6 +1,8 @@
 package service;
 
 import domain.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,14 +12,13 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Andriy on 2/21/2016.
- */
-public class OrderCreatorImpl implements OrderCreator{
+
+public class OrderCreatorImpl implements OrderCreator {
     public static final String REGEX_PIZZA_SIZE = "^[3,5]0$";
     public static final String REGEX_COUNT = "[0-9]?[0-9]?";
     private static final String REGEX_ADDONS_COUNT = "[0-9]";
     private static final String REGEX_DISCOUNT = "([Y,y](es|ES|eS|Es))|([N,n](o|O))";
+    private static final Logger logger = LoggerFactory.getLogger(OrderCreatorImpl.class);
     private Data data = new Data();
     private Bill bill = new Bill();
     private String discount;
@@ -86,8 +87,11 @@ public class OrderCreatorImpl implements OrderCreator{
             Matcher matcher = pattern.matcher(s);
             return matcher.matches();
         } catch (IllegalArgumentException e) {
+            logger.error("Please type in another format " + e.toString());
         } catch (DateTimeParseException e) {
+            logger.error("Incorrect Data format " +  e.toString());
         } catch (NullPointerException e) {
+            logger.error("Please put information different from null " + e.toString());
         }
         return false;
 
@@ -99,7 +103,7 @@ public class OrderCreatorImpl implements OrderCreator{
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Please type in another format", e.toString());
             }
             if (regex(readerText, RegexTypes.COUNT)) {
                 pizzaCount = Integer.parseInt(readerText);
@@ -120,7 +124,7 @@ public class OrderCreatorImpl implements OrderCreator{
                 System.out.println("1. Enter name of pizza. Available pizzas are: CAPRICCIOSA, SALAMI, VEGETERIANA, MEXICANO, PAPPERONI");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Please type in another format " + e.toString());
             }
             if (regex(readerText, RegexTypes.PIZZA_NAME)) {
                 pizzaBuilder = pizzaBuilder.makeName(PizzasNames.valueOf(readerText));
@@ -140,9 +144,9 @@ public class OrderCreatorImpl implements OrderCreator{
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Please type in another format " + e.toString());
             }
-            if (regex(readerText,RegexTypes.PIZZA_SIZE)) {
+            if (regex(readerText, RegexTypes.PIZZA_SIZE)) {
                 pizzaBuilder = pizzaBuilder.makeInfo().makeSize(Integer.parseInt(readerText)).makePrice();
                 return;
             } else {
@@ -160,7 +164,7 @@ public class OrderCreatorImpl implements OrderCreator{
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Please type in another format " + e.toString());
             }
             if (regex(readerText, RegexTypes.ADDONS_COUNT)) {
                 data.setAddons(Integer.parseInt(readerText));
@@ -180,7 +184,7 @@ public class OrderCreatorImpl implements OrderCreator{
                 System.out.println("4.  Enter the name of addons. Available addons are: CHEESE, SAUSAGE, SPICE, FRUITS, TOMATO");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Please type in another format " + e.toString());
             }
             if (regex(readerText, RegexTypes.PIZZA_ADDONS)) {
                 pizzaBuilder = pizzaBuilder.add(PizzasAddons.valueOf(readerText));
@@ -200,7 +204,7 @@ public class OrderCreatorImpl implements OrderCreator{
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Please type in another format " + e.toString());
             }
             if (regex(readerText, RegexTypes.COUNT)) {
                 drinksCount = Integer.parseInt(readerText);
@@ -221,7 +225,7 @@ public class OrderCreatorImpl implements OrderCreator{
                 System.out.println("1. Enter the name of drink. Please choose from following : BEER, VINE, COCACOLA, FANTA, SPRITE, JUICE, COFFEE, PEPSI");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Please type in another format " + e.toString());
             }
             if (regex(readerText, RegexTypes.DRINKS_NAME)) {
                 drinksBuilder = drinksBuilder.makeName(DrinksNames.valueOf(readerText)).makePrice();
@@ -241,7 +245,7 @@ public class OrderCreatorImpl implements OrderCreator{
                 System.out.println("2. Enter the size of drink: Please choose from following sizes: LOW(0.5L), MID1(1L), MID2(1.5L), BIG(2L)");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Please type in another format " + e.toString());
             }
             if (regex(readerText, RegexTypes.DRINKS_SIZE)) {
                 drinksBuilder = drinksBuilder.makeSize(DrinksSize.valueOf(readerText));
@@ -261,7 +265,7 @@ public class OrderCreatorImpl implements OrderCreator{
                 System.out.println("Please enter the date when you want to buy pizza or drinks in format : Year-month-day");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Please type in another format " + e.toString());
             }
             if (regex(readerText, RegexTypes.DATE)) {
                 data.setDate(LocalDate.parse(readerText));
@@ -281,7 +285,7 @@ public class OrderCreatorImpl implements OrderCreator{
                 System.out.println("Do you have a discount card?");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Please type in another format " + e.toString());
             }
             if (regex(readerText, RegexTypes.DISCOUNT)) {
                 discount = readerText;
@@ -315,24 +319,24 @@ public class OrderCreatorImpl implements OrderCreator{
                     } else {
                         System.out.println("Your pizza is without addons");
                     }
-                    bill.getPizzas().add(pizzaBuilder.build());
-                    System.out.println(bill.getPizzas().get(j));
+                    data.getPizzas().add(pizzaBuilder.build());
+                    //System.out.println(data.getPizzas().get(j));
                 }
             } else {
                 System.err.println("As we see you don't want pizza, your number of pizzas is: " + pizzaCount);
+                logger.error("PizzaCount = " + pizzaCount);
             }
 
 
         } catch (IllegalArgumentException e) {
-
+            logger.error("Please type in another format " + e.toString());
         } catch (NullPointerException e) {
-
+            logger.error("Please type not null variable "+ e.toString());
         } catch (Exception e) {
-            e.printStackTrace();
             System.err.println("Please type int number of pizzas");
+            logger.error("Error with number of pizzas " + e.toString());
             System.exit(0);
         }
-
     }
 
     private void makeDrinks() {
@@ -342,15 +346,15 @@ public class OrderCreatorImpl implements OrderCreator{
                 for (int j = 0; j < drinksCount; j++) {
                     checkDrinksNamesEnum();
                     checkDrinksSizeEnum();
-                    bill.getDrinks().add(drinksBuilder.build());
-                    System.out.println(bill.getDrinks());
+                    data.getDrinks().add(drinksBuilder.build());
                 }
             } else {
                 System.err.println("As we see you don't want drinks, your number of drinks is :" + drinksCount);
+                logger.error("DrinksCount = " + drinksCount);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             System.err.println("Please type int number of drinks.");
+            logger.error("Error with number of drinks " + e.toString());
             System.exit(0);
         }
     }

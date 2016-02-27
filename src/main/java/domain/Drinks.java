@@ -44,7 +44,7 @@ public class Drinks {
     }
 
     public static class DrinksBuilder {
-        private int count;
+        private static int count;
         private int price;
         private DrinksNames drinksNames;
         private DrinksSize drinksSize;

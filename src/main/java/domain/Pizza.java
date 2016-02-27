@@ -1,5 +1,8 @@
 package domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,6 +19,7 @@ public class Pizza {
     private String addonsInformation = "";
     private int count;
     private PizzasAddons pizzasAddons;
+    private static Logger logger = LoggerFactory.getLogger(Pizza.class);
 
     public static int getCount() {
         return Pizza.getCount();
@@ -57,8 +61,8 @@ public class Pizza {
     }
 
     public static class PizzaBuilder {
+        private static int count;
         private Map<String, String> pizzaMaps = new HashMap<String, String>();
-        private int count;
         private String name = "pizza";
         private int size = 30;
         private String info = ": Cheese + Salami + Papper ";
@@ -207,13 +211,13 @@ public class Pizza {
                         }
 
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error("Please type in another format " + e.toString());
                     } finally {
                         if (priceReader != null) {
                             try {
                                 priceReader.close();
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                logger.error("Please type in another format " + e.toString());
                             }
                         }
                     }
@@ -274,13 +278,13 @@ public class Pizza {
                                 System.exit(0);
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error("Please type in another format " + e.toString());
                     } finally {
                         if (priceReader != null) {
                             try {
                                 priceReader.close();
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                logger.error("Please type in another format " + e.toString());
                             }
                         }
                     }

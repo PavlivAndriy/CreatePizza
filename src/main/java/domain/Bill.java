@@ -35,23 +35,11 @@ public class Bill {
         this.pizzaPrice = pizzaPrice;
     }
 
-    public List<Pizza> getPizzas() {
-        return pizzas;
-    }
-
-    public List<Drinks> getDrinks() {
-        return drinks;
-    }
-
     @Override
     public String toString() {
         System.out.println("Your order is :");
-        for (Pizza p : pizzas) {
-            System.out.println(p);
-        }
-        for (Drinks d : drinks) {
-            System.out.println(d);
-        }
-        return "";
+        return " ";
     }
+
+
 }

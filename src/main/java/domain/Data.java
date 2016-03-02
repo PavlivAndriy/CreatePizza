@@ -13,6 +13,7 @@ public class Data {
     private int addons;
     private List<Pizza> pizzas = new ArrayList();
     private List<Drinks> drinks = new ArrayList();
+    private String discount;
 
     public LocalDate getDate() {
         return date;
@@ -34,9 +35,23 @@ public class Data {
         return pizzas;
     }
 
+    public void setPizzas(List<Pizza> pizzas) {
+        this.pizzas = pizzas;
+    }
+
     public List<Drinks> getDrinks() {
         return drinks;
     }
 
+    public void setDrinks(List<Drinks> drinks) {
+        this.drinks = drinks;
+    }
 
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
 }

@@ -16,28 +16,25 @@ import java.util.List;
 
 public class CalculationServiceImpl implements CalculationService {
     private static final Logger logger = LoggerFactory.getLogger(CalculationServiceImpl.class);
-    private OrderCreatorImpl orderCreatorImpl = new OrderCreatorImpl();
     private double pizzaTotalPrice;
     private double drinksTotalPrice;
-    private Bill bill = orderCreatorImpl.getBill();
+    private double totalPrice;
+    private Data data = new Data();
+    private Bill bill = new Bill();
     private LocalDate hollidayChristmas = Year.now().atMonth(Month.JANUARY).atDay(7);
     private LocalDate hollidayIndepenanceDay = Year.now().atMonth(Month.AUGUST).atDay(24);
     private LocalDate hollidayProgrammerDay = Year.now().atDay(256);
     private List<Pizza> pizzas = new ArrayList();
     private List<Drinks> drinks = new ArrayList();
 
-    public OrderCreatorImpl getOrderCreatorImpl() {
-        return orderCreatorImpl;
-    }
-
-    public void setDiscount(String discount) {
-        double price = bill.getTotalPrice();
-        LocalDate date = orderCreatorImpl.getData().getDate();
+    private void setDiscount(String discount) {
+        totalPrice = bill.getTotalPrice();
+        LocalDate date = data.getDate();
         if ((date.equals(hollidayChristmas))
-                | (date.equals(hollidayIndepenanceDay))
-                | (date.equals(hollidayProgrammerDay))) {
-            price *= 0.5;
-            bill.setTotalPrice(price);
+                || (date.equals(hollidayIndepenanceDay))
+                || (date.equals(hollidayProgrammerDay))) {
+            totalPrice *= 0.5;
+            bill.setTotalPrice(totalPrice);
             discount = "No";
             logger.info("Your economy, because of hollidays: " + bill.getTotalPrice() + " hrn");
         } else {
@@ -46,21 +43,22 @@ public class CalculationServiceImpl implements CalculationService {
 
         if (discount.equalsIgnoreCase("Yes")) {
             double discountPay = bill.getTotalPrice() * 0.1;
-            price *= 0.9;
-            bill.setTotalPrice(price);
+            totalPrice *= 0.9;
+            bill.setTotalPrice(totalPrice);
             logger.info("Your discount is: " + discountPay);
         } else if (discount.equalsIgnoreCase("No")) {
-            price *= 1;
-            bill.setTotalPrice(price);
+            totalPrice *= 1;
+            bill.setTotalPrice(totalPrice);
             logger.info("There is no discount card");
         }
 
     }
 
-    public void check() {
-        LocalDate date = orderCreatorImpl.getData().getDate();
+    private void check() {
+        LocalDate date = data.getDate();
         double price = bill.getTotalPrice();
-        if (date.getMonth().equals(Month.SEPTEMBER) & date.getDayOfMonth() < 8 & date.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
+        if (date.getYear() > 2015 && date.getMonth().equals(Month.SEPTEMBER) && date.getDayOfMonth() < 8
+                && date.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
             price *= 1;
             bill.setTotalPrice(price);
             logger.info("Today you don't need to pay tips");
@@ -72,12 +70,12 @@ public class CalculationServiceImpl implements CalculationService {
         }
     }
 
-    public void weekends() {
-        LocalDate date = orderCreatorImpl.getData().getDate();
+    private void weekends() {
+        LocalDate date = data.getDate();
         double price = bill.getTotalPrice();
         if (date.getDayOfWeek().equals(DayOfWeek.FRIDAY)
-                | date.getDayOfWeek().equals(DayOfWeek.SATURDAY)
-                | date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+                || date.getDayOfWeek().equals(DayOfWeek.SATURDAY)
+                || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
             double weekendsPay = 0.05 * bill.getTotalPrice();
             price *= 1.05;
             bill.setTotalPrice(price);
@@ -85,14 +83,13 @@ public class CalculationServiceImpl implements CalculationService {
         }
     }
 
-    public void storeInfo() {
+    private void storeInfo() {
         pizzaCost();
         drinksCost();
         bill.setTotalPrice(bill.getDrinksPrice() + bill.getPizzaPrice());
         if (bill.getTotalPrice() == 0) {
             logger.error("bill.getTotalPrice() = " + bill.getTotalPrice() + "Thank you for visiting our store");
         } else {
-            orderCreatorImpl.finalPrice();
             System.out.println(bill);
             for (Pizza p : pizzas) {
                 System.out.println(p);
@@ -102,28 +99,29 @@ public class CalculationServiceImpl implements CalculationService {
             }
             check();
             weekends();
-            setDiscount(orderCreatorImpl.getDiscount());
+            setDiscount(data.getDiscount());
             logger.info("YOUR FINAL PRICE IS: " + bill.getTotalPrice());
 
         }
     }
 
-    public void pizzaCost() {
-        for (int i = 0; i < orderCreatorImpl.getPizzaBuilder().getCount(); i++) {
+    private void pizzaCost() {
+        for (int i = 0; i < pizzas.size(); i++) {
             pizzaTotalPrice += pizzas.get(i).getPrice();
             bill.setPizzaPrice(pizzaTotalPrice);
         }
     }
 
-    public void drinksCost() {
-        for (int i = 0; i < orderCreatorImpl.getDrinksBuilder().getCount(); i++) {
+    private void drinksCost() {
+        for (int i = 0; i < drinks.size(); i++) {
             drinksTotalPrice += drinks.get(i).getPrice();
             bill.setDrinksPrice(drinksTotalPrice);
         }
     }
 
-    @Override
+
     public Bill buildBill(Data data) {
+        this.data = data;
         pizzas = data.getPizzas();
         drinks = data.getDrinks();
         storeInfo();

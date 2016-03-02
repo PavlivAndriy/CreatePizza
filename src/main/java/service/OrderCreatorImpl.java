@@ -14,40 +14,18 @@ import java.util.regex.Pattern;
 
 
 public class OrderCreatorImpl implements OrderCreator {
-    public static final String REGEX_PIZZA_SIZE = "^[3,5]0$";
-    public static final String REGEX_COUNT = "[0-9]?[0-9]?";
+    private static final String REGEX_PIZZA_SIZE = "^[3,5]0$";
+    private static final String REGEX_COUNT = "[0-9]?[0-9]?";
     private static final String REGEX_ADDONS_COUNT = "[0-9]";
     private static final String REGEX_DISCOUNT = "([Y,y](es|ES|eS|Es))|([N,n](o|O))";
     private static final Logger logger = LoggerFactory.getLogger(OrderCreatorImpl.class);
     private Data data = new Data();
-    private Bill bill = new Bill();
-    private String discount;
     private Pizza.PizzaBuilder pizzaBuilder = new Pizza.PizzaBuilder();
     private Drinks.DrinksBuilder drinksBuilder = new Drinks.DrinksBuilder();
     private String readerText;
     private int pizzaCount;
     private int drinksCount;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-    public Pizza.PizzaBuilder getPizzaBuilder() {
-        return pizzaBuilder;
-    }
-
-    public Drinks.DrinksBuilder getDrinksBuilder() {
-        return drinksBuilder;
-    }
-
-    public String getDiscount() {
-        return discount;
-    }
-
-    public Data getData() {
-        return data;
-    }
-
-    public Bill getBill() {
-        return bill;
-    }
 
     private boolean regex(String s, RegexTypes title) {
         Pattern pattern = null;
@@ -81,17 +59,17 @@ public class OrderCreatorImpl implements OrderCreator {
                     pattern = Pattern.compile(REGEX_DISCOUNT);
                     break;
                 default:
-                    System.err.println("ERROR");
+                    logger.error("ERROR, Please type correct Regex name");
                     break;
             }
             Matcher matcher = pattern.matcher(s);
             return matcher.matches();
         } catch (IllegalArgumentException e) {
-            logger.error("Please type in another format " + e.toString());
+            logger.error("Please type in another format " + e);
         } catch (DateTimeParseException e) {
-            logger.error("Incorrect Data format " +  e.toString());
+            logger.error("Incorrect Data format " + e);
         } catch (NullPointerException e) {
-            logger.error("Please put information different from null " + e.toString());
+            logger.error("Please put information different from null " + e);
         }
         return false;
 
@@ -103,13 +81,13 @@ public class OrderCreatorImpl implements OrderCreator {
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format", e.toString());
+                logger.error("Please type in another format", e);
             }
             if (regex(readerText, RegexTypes.COUNT)) {
                 pizzaCount = Integer.parseInt(readerText);
                 return;
             } else {
-                System.err.println("You can choose from 0 to 99 pizzas. You have " + (i - 1) + " tries left ");
+                logger.error("You can choose from 0 to 99 pizzas. You have " + (i - 1) + " tries left ");
                 if (i == 1) {
                     System.exit(0);
                 }
@@ -124,13 +102,13 @@ public class OrderCreatorImpl implements OrderCreator {
                 System.out.println("1. Enter name of pizza. Available pizzas are: CAPRICCIOSA, SALAMI, VEGETERIANA, MEXICANO, PAPPERONI");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e.toString());
+                logger.error("Please type in another format " + e);
             }
             if (regex(readerText, RegexTypes.PIZZA_NAME)) {
                 pizzaBuilder = pizzaBuilder.makeName(PizzasNames.valueOf(readerText));
                 return;
             } else {
-                System.err.println("You have " + (i - 1) + " tries left ");
+                logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
                     System.exit(0);
                 }
@@ -144,13 +122,13 @@ public class OrderCreatorImpl implements OrderCreator {
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e.toString());
+                logger.error("Please type in another format " + e);
             }
             if (regex(readerText, RegexTypes.PIZZA_SIZE)) {
                 pizzaBuilder = pizzaBuilder.makeInfo().makeSize(Integer.parseInt(readerText)).makePrice();
                 return;
             } else {
-                System.err.println("You have " + (i - 1) + " tries left ");
+                logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
                     System.exit(0);
                 }
@@ -164,13 +142,13 @@ public class OrderCreatorImpl implements OrderCreator {
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e.toString());
+                logger.error("Please type in another format " + e);
             }
             if (regex(readerText, RegexTypes.ADDONS_COUNT)) {
                 data.setAddons(Integer.parseInt(readerText));
                 return;
             } else {
-                System.err.println("You can choose from 0 to 9 addons. You have " + (i - 1) + " tries left ");
+                logger.error("You can choose from 0 to 9 addons. You have " + (i - 1) + " tries left ");
                 if (i == 1) {
                     System.exit(0);
                 }
@@ -184,13 +162,13 @@ public class OrderCreatorImpl implements OrderCreator {
                 System.out.println("4.  Enter the name of addons. Available addons are: CHEESE, SAUSAGE, SPICE, FRUITS, TOMATO");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e.toString());
+                logger.error("Please type in another format " + e);
             }
             if (regex(readerText, RegexTypes.PIZZA_ADDONS)) {
                 pizzaBuilder = pizzaBuilder.add(PizzasAddons.valueOf(readerText));
                 return;
             } else {
-                System.err.println("You have " + (i - 1) + " tries left ");
+                logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
                     System.exit(0);
                 }
@@ -204,13 +182,13 @@ public class OrderCreatorImpl implements OrderCreator {
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e.toString());
+                logger.error("Please type in another format " + e);
             }
             if (regex(readerText, RegexTypes.COUNT)) {
                 drinksCount = Integer.parseInt(readerText);
                 return;
             } else {
-                System.err.println("You can choose from 0 to 99 drinks. You have " + (i - 1) + " tries left ");
+                logger.error("You can choose from 0 to 99 drinks. You have " + (i - 1) + " tries left ");
                 if (i == 1) {
                     System.exit(0);
                 }
@@ -225,13 +203,13 @@ public class OrderCreatorImpl implements OrderCreator {
                 System.out.println("1. Enter the name of drink. Please choose from following : BEER, VINE, COCACOLA, FANTA, SPRITE, JUICE, COFFEE, PEPSI");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e.toString());
+                logger.error("Please type in another format " + e);
             }
             if (regex(readerText, RegexTypes.DRINKS_NAME)) {
                 drinksBuilder = drinksBuilder.makeName(DrinksNames.valueOf(readerText)).makePrice();
                 return;
             } else {
-                System.err.println("You have " + (i - 1) + " tries left ");
+                logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
                     System.exit(0);
                 }
@@ -245,13 +223,13 @@ public class OrderCreatorImpl implements OrderCreator {
                 System.out.println("2. Enter the size of drink: Please choose from following sizes: LOW(0.5L), MID1(1L), MID2(1.5L), BIG(2L)");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e.toString());
+                logger.error("Please type in another format " + e);
             }
             if (regex(readerText, RegexTypes.DRINKS_SIZE)) {
                 drinksBuilder = drinksBuilder.makeSize(DrinksSize.valueOf(readerText));
                 return;
             } else {
-                System.err.println("You have " + (i - 1) + " tries left ");
+                logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
                     System.exit(0);
                 }
@@ -265,13 +243,13 @@ public class OrderCreatorImpl implements OrderCreator {
                 System.out.println("Please enter the date when you want to buy pizza or drinks in format : Year-month-day");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e.toString());
+                logger.error("Please type in another format " + e);
             }
             if (regex(readerText, RegexTypes.DATE)) {
                 data.setDate(LocalDate.parse(readerText));
                 return;
             } else {
-                System.err.println("You have " + (i - 1) + " tries left ");
+                logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
                     System.exit(0);
                 }
@@ -285,23 +263,19 @@ public class OrderCreatorImpl implements OrderCreator {
                 System.out.println("Do you have a discount card?");
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e.toString());
+                logger.error("Please type in another format " + e);
             }
             if (regex(readerText, RegexTypes.DISCOUNT)) {
-                discount = readerText;
+                //discount = readerText;
+                data.setDiscount(readerText);
                 return;
             } else {
-                System.err.println("Please type Yes or No.  You have " + (i - 1) + " tries left ");
+                logger.error("Please type Yes or No.  You have " + (i - 1) + " tries left ");
                 if (i == 1) {
                     System.exit(0);
                 }
             }
         }
-    }
-
-    public void finalPrice() {
-        checkDate();
-        checkDiscount();
     }
 
     private void makePizza() {
@@ -320,21 +294,18 @@ public class OrderCreatorImpl implements OrderCreator {
                         System.out.println("Your pizza is without addons");
                     }
                     data.getPizzas().add(pizzaBuilder.build());
-                    //System.out.println(data.getPizzas().get(j));
                 }
             } else {
-                System.err.println("As we see you don't want pizza, your number of pizzas is: " + pizzaCount);
-                logger.error("PizzaCount = " + pizzaCount);
+                logger.error("As we see you don't want pizza, your number of pizzas is: " + pizzaCount);
             }
 
 
         } catch (IllegalArgumentException e) {
-            logger.error("Please type in another format " + e.toString());
+            logger.error("Please type in another format " + e);
         } catch (NullPointerException e) {
-            logger.error("Please type not null variable "+ e.toString());
+            logger.error("Please type not null variable " + e);
         } catch (Exception e) {
-            System.err.println("Please type int number of pizzas");
-            logger.error("Error with number of pizzas " + e.toString());
+            logger.error("Error with number of pizzas " + e);
             System.exit(0);
         }
     }
@@ -349,12 +320,10 @@ public class OrderCreatorImpl implements OrderCreator {
                     data.getDrinks().add(drinksBuilder.build());
                 }
             } else {
-                System.err.println("As we see you don't want drinks, your number of drinks is :" + drinksCount);
-                logger.error("DrinksCount = " + drinksCount);
+                logger.error("As we see you don't want drinks, your number of drinks is :" + drinksCount);
             }
         } catch (Exception e) {
-            System.err.println("Please type int number of drinks.");
-            logger.error("Error with number of drinks " + e.toString());
+            logger.error("Please type int number of drinks." + e);
             System.exit(0);
         }
     }
@@ -363,6 +332,8 @@ public class OrderCreatorImpl implements OrderCreator {
     public Data readData() {
         makePizza();
         makeDrinks();
+        checkDate();
+        checkDiscount();
         return data;
     }
 }

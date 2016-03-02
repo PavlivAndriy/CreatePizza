@@ -12,6 +12,7 @@ import java.util.Map;
 
 
 public class Pizza {
+    private static Logger logger = LoggerFactory.getLogger(Pizza.class);
     private PizzasNames pizzasNames;
     private int size;
     private String info;
@@ -19,11 +20,6 @@ public class Pizza {
     private String addonsInformation = "";
     private int count;
     private PizzasAddons pizzasAddons;
-    private static Logger logger = LoggerFactory.getLogger(Pizza.class);
-
-    public static int getCount() {
-        return Pizza.getCount();
-    }
 
     public void setCount(int count) {
         this.count = count;
@@ -57,13 +53,16 @@ public class Pizza {
     @Override
     public String toString() {
         return count + " " + this.getClass().getSimpleName() + " " + this.pizzasNames + " " + this.info +
-                ". Addons : " + pizzasAddons + ". Size is : " + size + " sm. Price is: " + price + " hrn";
+                ". Addons : " + this.addonsInformation + ". Size is : " + size + " sm. Price is: " + price + " hrn";
     }
 
     public static class PizzaBuilder {
+        private static final String CSV_FILE_30 = "./src/main/resources/Pizza30Prices.csv";
+        private static final String CSV_FILE_50 = "./src/main/resources/Pizza50Prices.csv";
+        private static final String CSV_SPLIT_BY = ",";
+        private String line = "";
         private static int count;
         private Map<String, String> pizzaMaps = new HashMap<String, String>();
-        private String name = "pizza";
         private int size = 30;
         private String info = ": Cheese + Salami + Papper ";
         private int price;
@@ -71,29 +70,10 @@ public class Pizza {
         private PizzasAddons pizzasAddons;
         private PizzasNames pizzasNames;
 
-        public int getCount() {
-            return count;
-        }
-
-        public void setSize(int size) {
-            this.size = size;
-        }
-
-        public int getPrice() {
-            return price;
-        }
-
-        public String getInfo() {
-            return info;
-        }
-
         public PizzaBuilder makeName(PizzasNames pizzasNames) {
             this.pizzasNames = pizzasNames;
             count++;
-
-
             return this;
-
         }
 
         public PizzaBuilder makeInfo() {
@@ -114,7 +94,7 @@ public class Pizza {
                     info = info + "+ Red Hot Chili Pepper + Onion + Bacon";
                     break;
                 default:
-                    System.err.println("This is incorrect pizza's name, please check it again." +
+                    logger.error("This is incorrect pizza's name, please check it again." +
                             " Available pizzas are: Capricciosa, Salami," +
                             "Vegeteriana, Mexicano, Papperoni");
                     System.exit(0);
@@ -147,7 +127,7 @@ public class Pizza {
                     price += 7;
                     break;
                 default:
-                    System.err.println("Please enter correct addons name");
+                    logger.error("Please enter correct addons name");
                     System.exit(0);
             }
             return this;
@@ -156,14 +136,11 @@ public class Pizza {
         public PizzaBuilder makePrice() {
             switch (size) {
                 case 30:
-                    String csvFile = "./src/main/resources/Pizza30Prices.csv";
-                    String line = "";
-                    String csvSplitBy = ",";
                     BufferedReader priceReader = null;
                     try {
-                        priceReader = new BufferedReader(new FileReader(csvFile));
+                        priceReader = new BufferedReader(new FileReader(CSV_FILE_30));
                         while ((line = priceReader.readLine()) != null) {
-                            String[] price = line.split(csvSplitBy);
+                            String[] price = line.split(CSV_SPLIT_BY);
                             pizzaMaps.put(price[0], price[1]);
                         }
                         switch (pizzasNames) {
@@ -183,11 +160,12 @@ public class Pizza {
                                 price = Integer.parseInt(pizzaMaps.get("PAPPERONI"));
                                 break;
                             default:
-                                System.err.println("This is incorrect pizza's size, " +
+                                logger.error("This is incorrect pizza's size, " +
                                         "please check it again. Available sizes are: 30 , 50");
                                 System.exit(0);
                         }
                     } catch (FileNotFoundException e) {
+                        logger.error("ERROR,couldn't take prices from csv file + e");
                         switch (pizzasNames) {
                             case CAPRICCIOSA:
                                 price = 60;
@@ -205,31 +183,28 @@ public class Pizza {
                                 price = 55;
                                 break;
                             default:
-                                System.err.println("This is incorrect pizza's size, " +
+                                logger.error("This is incorrect pizza's size, " +
                                         "please check it again. Available sizes are: 30 , 50");
                                 System.exit(0);
                         }
-
                     } catch (IOException e) {
-                        logger.error("Please type in another format " + e.toString());
+                        logger.error("Please type in another format " + e);
                     } finally {
                         if (priceReader != null) {
                             try {
                                 priceReader.close();
                             } catch (IOException e) {
-                                logger.error("Please type in another format " + e.toString());
+                                logger.error("Please type in another format " + e);
                             }
                         }
                     }
                     break;
                 case 50:
-                    csvFile = "./src/main/resources/Pizza50Prices.csv";
-                    csvSplitBy = ",";
                     priceReader = null;
                     try {
-                        priceReader = new BufferedReader(new FileReader(csvFile));
+                        priceReader = new BufferedReader(new FileReader(CSV_FILE_50));
                         while ((line = priceReader.readLine()) != null) {
-                            String[] price = line.split(csvSplitBy);
+                            String[] price = line.split(CSV_SPLIT_BY);
                             pizzaMaps.put(price[0], price[1]);
                         }
                         switch (pizzasNames) {
@@ -249,13 +224,13 @@ public class Pizza {
                                 price = Integer.parseInt(pizzaMaps.get("PAPPERONI"));
                                 break;
                             default:
-                                System.err.println("This is incorrect pizza's size, " +
+                                logger.error("This is incorrect pizza's size, " +
                                         "please check it again. Available sizes are: 30 , 50");
                                 System.exit(0);
                         }
                         break;
                     } catch (FileNotFoundException e) {
-                        System.err.println("ERROR");
+                        logger.error("ERROR,couldn't take prices from csv file" + e);
                         switch (pizzasNames) {
                             case CAPRICCIOSA:
                                 price = 80;
@@ -273,23 +248,23 @@ public class Pizza {
                                 price = 85;
                                 break;
                             default:
-                                System.err.println("This is incorrect pizza's size, " +
+                                logger.error("This is incorrect pizza's size, " +
                                         "please check it again. Available sizes are: 30 , 50");
                                 System.exit(0);
                         }
                     } catch (IOException e) {
-                        logger.error("Please type in another format " + e.toString());
+                        logger.error("Please type in another format " + e);
                     } finally {
                         if (priceReader != null) {
                             try {
                                 priceReader.close();
                             } catch (IOException e) {
-                                logger.error("Please type in another format " + e.toString());
+                                logger.error("Please type in another format " + e);
                             }
                         }
                     }
                 default:
-                    System.err.println("This is incorrect pizza's size, " +
+                    logger.error("This is incorrect pizza's size, " +
                             "please check it again. Available sizes are: 30 , 50");
                     System.exit(0);
             }

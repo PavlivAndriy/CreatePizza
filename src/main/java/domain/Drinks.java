@@ -1,6 +1,9 @@
 package domain;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,6 +15,7 @@ import java.util.Map;
  * Created by Andriy on 1/14/2016.
  */
 public class Drinks {
+    private static final Logger logger = LoggerFactory.getLogger(Drinks.class);
     private DrinksNames drinksNames;
     private DrinksSize drinksSize;
     private int price;
@@ -44,15 +48,15 @@ public class Drinks {
     }
 
     public static class DrinksBuilder {
-        private static int count;
+        private static final String CSV_FILE = "./src/main/resources/DrinksPrices.csv";
+        private static final String CSV_SPLIT_BY = ",";
+        private String line = "";
+        private int count;
         private int price;
         private DrinksNames drinksNames;
         private DrinksSize drinksSize;
         private Map<String, String> drinksMaps = new HashMap<String, String>();
 
-        public int getCount() {
-            return count;
-        }
 
         public DrinksBuilder makeName(DrinksNames drinksNames) {
             this.drinksNames = drinksNames;
@@ -76,21 +80,19 @@ public class Drinks {
                     price *= drinksSize.value();
                     break;
                 default:
-                    System.err.println("Please try again. You can choose from the following sizes: LOW - 0.5L, MID1 - 1L, MID2 - 1.5L, BIG - 2L");
+                    logger.error("Please try again. You can choose from the following sizes: " +
+                            "LOW - 0.5L, MID1 - 1L, MID2 - 1.5L, BIG - 2L");
                     System.exit(0);
             }
             return this;
         }
 
         public DrinksBuilder makePrice() {
-            String csvFile = "./src/main/resources/DrinksPrices.csv";
-            String line = "";
-            String csvSplitBy = ",";
             BufferedReader priceReader = null;
             try {
-                priceReader = new BufferedReader(new FileReader(csvFile));
+                priceReader = new BufferedReader(new FileReader(CSV_FILE));
                 while ((line = priceReader.readLine()) != null) {
-                    String[] price = line.split(csvSplitBy);
+                    String[] price = line.split(CSV_SPLIT_BY);
                     drinksMaps.put(price[0], price[1]);
                 }
                 switch (drinksNames) {
@@ -119,12 +121,13 @@ public class Drinks {
                         price = Integer.parseInt(drinksMaps.get("COFFEE"));
                         break;
                     default:
-                        System.err.println("There are not this kind of drink. Please try again, " +
+                        logger.error("There are not this kind of drink. Please try again, " +
                                 "you can choose from following : Beer, Vine, Cocacola, Fanta" +
                                 "Sprite, Pepsi, Coffee, Juice");
                         System.exit(0);
                 }
             } catch (FileNotFoundException e) {
+                logger.error("ERROR,couldn't take prices from csv file + e");
                 switch (drinksNames) {
                     case BEER:
                         price = 30;
@@ -151,19 +154,19 @@ public class Drinks {
                         price = 21;
                         break;
                     default:
-                        System.err.println("There are not this kind of drink. Please try again, " +
+                        logger.error("There are not this kind of drink. Please try again, " +
                                 "you can choose from following : Beer, Vine, Cocacola, Fanta" +
                                 "Sprite, Pepsi, Coffee, Juice");
                         System.exit(0);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Please type correct name" + e);
             } finally {
                 if (priceReader != null) {
                     try {
                         priceReader.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error("Please type correct name" + e);
                     }
                 }
             }

@@ -88,7 +88,7 @@ public class CalculationServiceImpl implements CalculationService {
         drinksCost();
         bill.setTotalPrice(bill.getDrinksPrice() + bill.getPizzaPrice());
         if (bill.getTotalPrice() == 0) {
-            logger.error("bill.getTotalPrice() = " + bill.getTotalPrice() + "Thank you for visiting our store");
+            logger.error("You have ordered for = " + bill.getTotalPrice() + "hrn. Thank you for visiting our store");
         } else {
             System.out.println(bill);
             for (Pizza p : pizzas) {

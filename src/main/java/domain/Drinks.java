@@ -82,7 +82,7 @@ public class Drinks {
                 default:
                     logger.error("Please try again. You can choose from the following sizes: " +
                             "LOW - 0.5L, MID1 - 1L, MID2 - 1.5L, BIG - 2L");
-                    System.exit(0);
+                    break;
             }
             return this;
         }
@@ -124,7 +124,7 @@ public class Drinks {
                         logger.error("There are not this kind of drink. Please try again, " +
                                 "you can choose from following : Beer, Vine, Cocacola, Fanta" +
                                 "Sprite, Pepsi, Coffee, Juice");
-                        System.exit(0);
+                        break;
                 }
             } catch (FileNotFoundException e) {
                 logger.error("ERROR,couldn't take prices from csv file + e");
@@ -157,7 +157,7 @@ public class Drinks {
                         logger.error("There are not this kind of drink. Please try again, " +
                                 "you can choose from following : Beer, Vine, Cocacola, Fanta" +
                                 "Sprite, Pepsi, Coffee, Juice");
-                        System.exit(0);
+                        break;
                 }
             } catch (IOException e) {
                 logger.error("Please type correct name" + e);

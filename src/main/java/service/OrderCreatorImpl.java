@@ -89,7 +89,7 @@ public class OrderCreatorImpl implements OrderCreator {
             } else {
                 logger.error("You can choose from 0 to 99 pizzas. You have " + (i - 1) + " tries left ");
                 if (i == 1) {
-                    System.exit(0);
+                    break;
                 }
             }
         }
@@ -110,7 +110,7 @@ public class OrderCreatorImpl implements OrderCreator {
             } else {
                 logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
-                    System.exit(0);
+                    break;
                 }
             }
         }
@@ -130,7 +130,7 @@ public class OrderCreatorImpl implements OrderCreator {
             } else {
                 logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
-                    System.exit(0);
+                    break;
                 }
             }
         }
@@ -150,7 +150,7 @@ public class OrderCreatorImpl implements OrderCreator {
             } else {
                 logger.error("You can choose from 0 to 9 addons. You have " + (i - 1) + " tries left ");
                 if (i == 1) {
-                    System.exit(0);
+                    break;
                 }
             }
         }
@@ -170,7 +170,7 @@ public class OrderCreatorImpl implements OrderCreator {
             } else {
                 logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
-                    System.exit(0);
+                    break;
                 }
             }
         }
@@ -190,7 +190,7 @@ public class OrderCreatorImpl implements OrderCreator {
             } else {
                 logger.error("You can choose from 0 to 99 drinks. You have " + (i - 1) + " tries left ");
                 if (i == 1) {
-                    System.exit(0);
+                    break;
                 }
             }
         }
@@ -211,7 +211,7 @@ public class OrderCreatorImpl implements OrderCreator {
             } else {
                 logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
-                    System.exit(0);
+                    break;
                 }
             }
         }
@@ -231,7 +231,7 @@ public class OrderCreatorImpl implements OrderCreator {
             } else {
                 logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
-                    System.exit(0);
+                    break;
                 }
             }
         }
@@ -251,7 +251,7 @@ public class OrderCreatorImpl implements OrderCreator {
             } else {
                 logger.error("You have " + (i - 1) + " tries left ");
                 if (i == 1) {
-                    System.exit(0);
+                    break;
                 }
             }
         }
@@ -266,13 +266,12 @@ public class OrderCreatorImpl implements OrderCreator {
                 logger.error("Please type in another format " + e);
             }
             if (regex(readerText, RegexTypes.DISCOUNT)) {
-                //discount = readerText;
                 data.setDiscount(readerText);
                 return;
             } else {
                 logger.error("Please type Yes or No.  You have " + (i - 1) + " tries left ");
                 if (i == 1) {
-                    System.exit(0);
+                    break;
                 }
             }
         }
@@ -306,7 +305,7 @@ public class OrderCreatorImpl implements OrderCreator {
             logger.error("Please type not null variable " + e);
         } catch (Exception e) {
             logger.error("Error with number of pizzas " + e);
-            System.exit(0);
+            /*System.exit(0);*/
         }
     }
 
@@ -324,7 +323,7 @@ public class OrderCreatorImpl implements OrderCreator {
             }
         } catch (Exception e) {
             logger.error("Please type int number of drinks." + e);
-            System.exit(0);
+            /*System.exit(0);*/
         }
     }
 

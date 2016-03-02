@@ -97,7 +97,7 @@ public class Pizza {
                     logger.error("This is incorrect pizza's name, please check it again." +
                             " Available pizzas are: Capricciosa, Salami," +
                             "Vegeteriana, Mexicano, Papperoni");
-                    System.exit(0);
+                    break;
             }
             return this;
         }
@@ -128,7 +128,7 @@ public class Pizza {
                     break;
                 default:
                     logger.error("Please enter correct addons name");
-                    System.exit(0);
+                    break;
             }
             return this;
         }
@@ -162,7 +162,7 @@ public class Pizza {
                             default:
                                 logger.error("This is incorrect pizza's size, " +
                                         "please check it again. Available sizes are: 30 , 50");
-                                System.exit(0);
+                                break;
                         }
                     } catch (FileNotFoundException e) {
                         logger.error("ERROR,couldn't take prices from csv file + e");
@@ -185,7 +185,7 @@ public class Pizza {
                             default:
                                 logger.error("This is incorrect pizza's size, " +
                                         "please check it again. Available sizes are: 30 , 50");
-                                System.exit(0);
+                                break;
                         }
                     } catch (IOException e) {
                         logger.error("Please type in another format " + e);
@@ -226,7 +226,7 @@ public class Pizza {
                             default:
                                 logger.error("This is incorrect pizza's size, " +
                                         "please check it again. Available sizes are: 30 , 50");
-                                System.exit(0);
+                                break;
                         }
                         break;
                     } catch (FileNotFoundException e) {
@@ -250,7 +250,7 @@ public class Pizza {
                             default:
                                 logger.error("This is incorrect pizza's size, " +
                                         "please check it again. Available sizes are: 30 , 50");
-                                System.exit(0);
+                               break;
                         }
                     } catch (IOException e) {
                         logger.error("Please type in another format " + e);
@@ -266,7 +266,7 @@ public class Pizza {
                 default:
                     logger.error("This is incorrect pizza's size, " +
                             "please check it again. Available sizes are: 30 , 50");
-                    System.exit(0);
+                    break;
             }
             return this;
         }

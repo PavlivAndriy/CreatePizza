@@ -14,6 +14,8 @@ public class Data {
     private List<Pizza> pizzas = new ArrayList();
     private List<Drinks> drinks = new ArrayList();
     private String discount;
+    private String lang = "en";
+    private String country = "US";
 
     public LocalDate getDate() {
         return date;
@@ -53,5 +55,21 @@ public class Data {
 
     public void setDiscount(String discount) {
         this.discount = discount;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCountry() {
+        return country;
     }
 }

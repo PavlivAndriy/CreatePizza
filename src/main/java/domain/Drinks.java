@@ -9,7 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * Created by Andriy on 1/14/2016.
@@ -20,6 +22,7 @@ public class Drinks {
     private DrinksSize drinksSize;
     private int price;
     private int count;
+
 
     public void setName(DrinksNames drinksNames) {
         this.drinksNames = drinksNames;
@@ -56,7 +59,9 @@ public class Drinks {
         private DrinksNames drinksNames;
         private DrinksSize drinksSize;
         private Map<String, String> drinksMaps = new HashMap<String, String>();
-
+        private Data data = new Data();
+        private Locale locale = new Locale(data.getLang(), data.getCountry());
+        private ResourceBundle resourceBundle = ResourceBundle.getBundle("Bundle", locale);
 
         public DrinksBuilder makeName(DrinksNames drinksNames) {
             this.drinksNames = drinksNames;
@@ -80,8 +85,7 @@ public class Drinks {
                     price *= drinksSize.value();
                     break;
                 default:
-                    logger.error("Please try again. You can choose from the following sizes: " +
-                            "LOW - 0.5L, MID1 - 1L, MID2 - 1.5L, BIG - 2L");
+                    logger.error(resourceBundle.getString("drinksSize"));
                     break;
             }
             return this;
@@ -121,13 +125,11 @@ public class Drinks {
                         price = Integer.parseInt(drinksMaps.get("COFFEE"));
                         break;
                     default:
-                        logger.error("There are not this kind of drink. Please try again, " +
-                                "you can choose from following : Beer, Vine, Cocacola, Fanta" +
-                                "Sprite, Pepsi, Coffee, Juice");
+                        logger.error(resourceBundle.getString("drinksTypes"));
                         break;
                 }
             } catch (FileNotFoundException e) {
-                logger.error("ERROR,couldn't take prices from csv file + e");
+                logger.error(resourceBundle.getString("csvError") + e);
                 switch (drinksNames) {
                     case BEER:
                         price = 30;
@@ -154,19 +156,17 @@ public class Drinks {
                         price = 21;
                         break;
                     default:
-                        logger.error("There are not this kind of drink. Please try again, " +
-                                "you can choose from following : Beer, Vine, Cocacola, Fanta" +
-                                "Sprite, Pepsi, Coffee, Juice");
+                        logger.error(resourceBundle.getString("drinksTypes"));
                         break;
                 }
             } catch (IOException e) {
-                logger.error("Please type correct name" + e);
+                logger.error(resourceBundle.getString("correctName") + e);
             } finally {
                 if (priceReader != null) {
                     try {
                         priceReader.close();
                     } catch (IOException e) {
-                        logger.error("Please type correct name" + e);
+                        logger.error(resourceBundle.getString("correctName") + e);
                     }
                 }
             }

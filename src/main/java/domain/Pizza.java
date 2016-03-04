@@ -8,7 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 
 public class Pizza {
@@ -69,6 +71,9 @@ public class Pizza {
         private String addons = " ";
         private PizzasAddons pizzasAddons;
         private PizzasNames pizzasNames;
+        private Data data = new Data();
+        private Locale locale = new Locale(data.getLang(), data.getCountry());
+        private ResourceBundle resourceBundle = ResourceBundle.getBundle("Bundle", locale);
 
         public PizzaBuilder makeName(PizzasNames pizzasNames) {
             this.pizzasNames = pizzasNames;
@@ -94,9 +99,7 @@ public class Pizza {
                     info = info + "+ Red Hot Chili Pepper + Onion + Bacon";
                     break;
                 default:
-                    logger.error("This is incorrect pizza's name, please check it again." +
-                            " Available pizzas are: Capricciosa, Salami," +
-                            "Vegeteriana, Mexicano, Papperoni");
+                    logger.error(resourceBundle.getString("pizzaVariables"));
                     break;
             }
             return this;
@@ -127,7 +130,7 @@ public class Pizza {
                     price += 7;
                     break;
                 default:
-                    logger.error("Please enter correct addons name");
+                    logger.error(resourceBundle.getString("pizzaAddonsTypes"));
                     break;
             }
             return this;
@@ -160,12 +163,11 @@ public class Pizza {
                                 price = Integer.parseInt(pizzaMaps.get("PAPPERONI"));
                                 break;
                             default:
-                                logger.error("This is incorrect pizza's size, " +
-                                        "please check it again. Available sizes are: 30 , 50");
+                                logger.error(resourceBundle.getString("pizzaSize"));
                                 break;
                         }
                     } catch (FileNotFoundException e) {
-                        logger.error("ERROR,couldn't take prices from csv file + e");
+                        logger.error(resourceBundle.getString("csvError") + e);
                         switch (pizzasNames) {
                             case CAPRICCIOSA:
                                 price = 60;
@@ -183,18 +185,17 @@ public class Pizza {
                                 price = 55;
                                 break;
                             default:
-                                logger.error("This is incorrect pizza's size, " +
-                                        "please check it again. Available sizes are: 30 , 50");
+                                logger.error(resourceBundle.getString("pizzaSize"));
                                 break;
                         }
                     } catch (IOException e) {
-                        logger.error("Please type in another format " + e);
+                        logger.error(resourceBundle.getString("correctName") + e);
                     } finally {
                         if (priceReader != null) {
                             try {
                                 priceReader.close();
                             } catch (IOException e) {
-                                logger.error("Please type in another format " + e);
+                                logger.error(resourceBundle.getString("correctName") + e);
                             }
                         }
                     }
@@ -224,13 +225,12 @@ public class Pizza {
                                 price = Integer.parseInt(pizzaMaps.get("PAPPERONI"));
                                 break;
                             default:
-                                logger.error("This is incorrect pizza's size, " +
-                                        "please check it again. Available sizes are: 30 , 50");
+                                logger.error(resourceBundle.getString("pizzaSize"));
                                 break;
                         }
                         break;
                     } catch (FileNotFoundException e) {
-                        logger.error("ERROR,couldn't take prices from csv file" + e);
+                        logger.error(resourceBundle.getString("csvError") + e);
                         switch (pizzasNames) {
                             case CAPRICCIOSA:
                                 price = 80;
@@ -248,24 +248,22 @@ public class Pizza {
                                 price = 85;
                                 break;
                             default:
-                                logger.error("This is incorrect pizza's size, " +
-                                        "please check it again. Available sizes are: 30 , 50");
+                                logger.error(resourceBundle.getString("pizzaSize"));
                                break;
                         }
                     } catch (IOException e) {
-                        logger.error("Please type in another format " + e);
+                        logger.error(resourceBundle.getString("correctName") + e);
                     } finally {
                         if (priceReader != null) {
                             try {
                                 priceReader.close();
                             } catch (IOException e) {
-                                logger.error("Please type in another format " + e);
+                                logger.error(resourceBundle.getString("correctName") + e);
                             }
                         }
                     }
                 default:
-                    logger.error("This is incorrect pizza's size, " +
-                            "please check it again. Available sizes are: 30 , 50");
+                    logger.error(resourceBundle.getString("pizzaSize"));
                     break;
             }
             return this;

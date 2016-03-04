@@ -13,6 +13,9 @@ import java.time.Month;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 
 public class CalculationServiceImpl implements CalculationService {
     private static final Logger logger = LoggerFactory.getLogger(CalculationServiceImpl.class);
@@ -26,6 +29,8 @@ public class CalculationServiceImpl implements CalculationService {
     private LocalDate hollidayProgrammerDay = Year.now().atDay(256);
     private List<Pizza> pizzas = new ArrayList();
     private List<Drinks> drinks = new ArrayList();
+    private Locale locale = new Locale(data.getLang(), data.getCountry());
+    private ResourceBundle resourceBundle = ResourceBundle.getBundle("Bundle", locale);
 
     private void setDiscount(String discount) {
         totalPrice = bill.getTotalPrice();
@@ -36,20 +41,20 @@ public class CalculationServiceImpl implements CalculationService {
             totalPrice *= 0.5;
             bill.setTotalPrice(totalPrice);
             discount = "No";
-            logger.info("Your economy, because of hollidays: " + bill.getTotalPrice() + " hrn");
+            logger.info(resourceBundle.getString("economyHollidays") + bill.getTotalPrice());
         } else {
-            logger.info("There are no economy, because Available economy days are: Jannuary 7th, August 24th, 256 day of year");
+            logger.info(resourceBundle.getString("noEconomy"));
         }
 
         if (discount.equalsIgnoreCase("Yes")) {
             double discountPay = bill.getTotalPrice() * 0.1;
             totalPrice *= 0.9;
             bill.setTotalPrice(totalPrice);
-            logger.info("Your discount is: " + discountPay);
+            logger.info(resourceBundle.getString("yourDiscount")+ discountPay);
         } else if (discount.equalsIgnoreCase("No")) {
             totalPrice *= 1;
             bill.setTotalPrice(totalPrice);
-            logger.info("There is no discount card");
+            logger.info(resourceBundle.getString("noDiscount"));
         }
 
     }
@@ -61,12 +66,12 @@ public class CalculationServiceImpl implements CalculationService {
                 && date.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
             price *= 1;
             bill.setTotalPrice(price);
-            logger.info("Today you don't need to pay tips");
+            logger.info(resourceBundle.getString("noTips"));
         } else {
             double tips = 0.05 * bill.getTotalPrice();
             price *= 1.05;
             bill.setTotalPrice(price);
-            logger.info("Today your pay for tips is: +" + tips + " hrn");
+            logger.info(resourceBundle.getString("payForTips") + tips );
         }
     }
 
@@ -79,7 +84,7 @@ public class CalculationServiceImpl implements CalculationService {
             double weekendsPay = 0.05 * bill.getTotalPrice();
             price *= 1.05;
             bill.setTotalPrice(price);
-            logger.info("Today there are weekends, and additional payment is: +" + weekendsPay + " hrn");
+            logger.info(resourceBundle.getString("payForWeekends")+ weekendsPay );
         }
     }
 
@@ -88,9 +93,10 @@ public class CalculationServiceImpl implements CalculationService {
         drinksCost();
         bill.setTotalPrice(bill.getDrinksPrice() + bill.getPizzaPrice());
         if (bill.getTotalPrice() == 0) {
-            logger.error("You have ordered for = " + bill.getTotalPrice() + "hrn. Thank you for visiting our store");
+            logger.error(resourceBundle.getString("orderFor") + bill.getTotalPrice()
+                    + resourceBundle.getString("thankYouForVisit"));
         } else {
-            System.out.println(bill);
+            System.out.println(resourceBundle.getString("yourOrder"));
             for (Pizza p : pizzas) {
                 System.out.println(p);
             }
@@ -100,7 +106,7 @@ public class CalculationServiceImpl implements CalculationService {
             check();
             weekends();
             setDiscount(data.getDiscount());
-            logger.info("YOUR FINAL PRICE IS: " + bill.getTotalPrice());
+            logger.info(resourceBundle.getString("finalPrice") + bill.getTotalPrice());
 
         }
     }

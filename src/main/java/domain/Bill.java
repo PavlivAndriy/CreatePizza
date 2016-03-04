@@ -31,7 +31,6 @@ public class Bill {
 
     @Override
     public String toString() {
-        System.out.println("Your order is :");
         return " ";
     }
 

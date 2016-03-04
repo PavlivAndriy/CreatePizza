@@ -1,6 +1,6 @@
 import domain.Data;
 import service.CalculationServiceImpl;
-import service.OrderCreatorImpl;
+import service.OrderCreatorServiceImpl;
 
 /**
  * Created by Andriy on 1/24/2016.
@@ -8,7 +8,7 @@ import service.OrderCreatorImpl;
 public class Launcher {
     public static void main(String[] args) {
         CalculationServiceImpl calculationServiceImpl = new CalculationServiceImpl();
-        OrderCreatorImpl orderCreatorImpl = new OrderCreatorImpl();
+        OrderCreatorServiceImpl orderCreatorImpl = new OrderCreatorServiceImpl();
         Data data = orderCreatorImpl.readData();
         calculationServiceImpl.buildBill(data);
     }

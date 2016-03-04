@@ -9,16 +9,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class OrderCreatorImpl implements OrderCreator {
+public class OrderCreatorServiceImpl implements OrderCreatorService {
     private static final String REGEX_PIZZA_SIZE = "^[3,5]0$";
     private static final String REGEX_COUNT = "[0-9]?[0-9]?";
     private static final String REGEX_ADDONS_COUNT = "[0-9]";
     private static final String REGEX_DISCOUNT = "([Y,y](es|ES|eS|Es))|([N,n](o|O))";
-    private static final Logger logger = LoggerFactory.getLogger(OrderCreatorImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderCreatorServiceImpl.class);
     private Data data = new Data();
     private Pizza.PizzaBuilder pizzaBuilder = new Pizza.PizzaBuilder();
     private Drinks.DrinksBuilder drinksBuilder = new Drinks.DrinksBuilder();
@@ -26,6 +28,17 @@ public class OrderCreatorImpl implements OrderCreator {
     private int pizzaCount;
     private int drinksCount;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private Locale locale;
+    private ResourceBundle resourceBundle;
+
+    private void checkLanguage(){
+        if (System.getProperties().getProperty("user.language").equals("ua")){
+            data.setLang("ua");
+            data.setCountry("UA");
+        }
+        locale = new Locale(data.getLang(), data.getCountry());
+        resourceBundle = ResourceBundle.getBundle("Bundle", locale);
+    }
 
     private boolean regex(String s, RegexTypes title) {
         Pattern pattern = null;
@@ -59,35 +72,35 @@ public class OrderCreatorImpl implements OrderCreator {
                     pattern = Pattern.compile(REGEX_DISCOUNT);
                     break;
                 default:
-                    logger.error("ERROR, Please type correct Regex name");
+                    logger.error(resourceBundle.getString("regexError"));
                     break;
             }
             Matcher matcher = pattern.matcher(s);
             return matcher.matches();
         } catch (IllegalArgumentException e) {
-            logger.error("Please type in another format " + e);
+            logger.error(resourceBundle.getString("anotherFormat") + e);
         } catch (DateTimeParseException e) {
-            logger.error("Incorrect Data format " + e);
+            logger.error(resourceBundle.getString("incorrectFormat") + e);
         } catch (NullPointerException e) {
-            logger.error("Please put information different from null " + e);
+            logger.error(resourceBundle.getString("nullPointer") + e);
         }
         return false;
 
     }
 
     private void checkPizzaCount() {
-        System.out.println("Please enter how many pizzas do you want:");
+        System.out.println(resourceBundle.getString("pizzaCount"));
         for (int i = 3; i > 0; i--) {
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format", e);
+                logger.error(resourceBundle.getString("anotherFormat"), e);
             }
             if (regex(readerText, RegexTypes.COUNT)) {
                 pizzaCount = Integer.parseInt(readerText);
                 return;
             } else {
-                logger.error("You can choose from 0 to 99 pizzas. You have " + (i - 1) + " tries left ");
+                logger.error(resourceBundle.getString("pizzas99")+ resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -98,17 +111,17 @@ public class OrderCreatorImpl implements OrderCreator {
     private void checkPizzasNamesEnum() {
         for (int i = 3; i > 0; i--) {
             try {
-                System.out.println("Please choose your pizza.");
-                System.out.println("1. Enter name of pizza. Available pizzas are: CAPRICCIOSA, SALAMI, VEGETERIANA, MEXICANO, PAPPERONI");
+                System.out.println(resourceBundle.getString("pizzaChoose"));
+                System.out.println(resourceBundle.getString("pizzaVariables"));
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e);
+                logger.error(resourceBundle.getString("anotherFormat") + e);
             }
             if (regex(readerText, RegexTypes.PIZZA_NAME)) {
                 pizzaBuilder = pizzaBuilder.makeName(PizzasNames.valueOf(readerText));
                 return;
             } else {
-                logger.error("You have " + (i - 1) + " tries left ");
+                logger.error(resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -118,17 +131,17 @@ public class OrderCreatorImpl implements OrderCreator {
 
     private void checkPizzaSize() {
         for (int i = 3; i > 0; i--) {
-            System.out.println("2. Enter the size of pizza: Available sizes of pizza are: 30 and 50");
+            System.out.println(resourceBundle.getString("pizzaSize"));
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e);
+                logger.error(resourceBundle.getString("anotherFormat") + e);
             }
             if (regex(readerText, RegexTypes.PIZZA_SIZE)) {
                 pizzaBuilder = pizzaBuilder.makeInfo().makeSize(Integer.parseInt(readerText)).makePrice();
                 return;
             } else {
-                logger.error("You have " + (i - 1) + " tries left ");
+                logger.error(resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -138,17 +151,17 @@ public class OrderCreatorImpl implements OrderCreator {
 
     private void checkPizzaAddonsCount() {
         for (int i = 3; i > 0; i--) {
-            System.out.println("3. If you want some addons, please enter the number of addons: ");
+            System.out.println(resourceBundle.getString("pizzaAddonsCount"));
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e);
+                logger.error(resourceBundle.getString("anotherFormat") + e);
             }
             if (regex(readerText, RegexTypes.ADDONS_COUNT)) {
                 data.setAddons(Integer.parseInt(readerText));
                 return;
             } else {
-                logger.error("You can choose from 0 to 9 addons. You have " + (i - 1) + " tries left ");
+                logger.error(resourceBundle.getString("addonsCount") + resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -159,16 +172,16 @@ public class OrderCreatorImpl implements OrderCreator {
     private void checkPizzaAddonsEnum() {
         for (int i = 3; i > 0; i--) {
             try {
-                System.out.println("4.  Enter the name of addons. Available addons are: CHEESE, SAUSAGE, SPICE, FRUITS, TOMATO");
+                System.out.println(resourceBundle.getString("pizzaAddonsTypes"));
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e);
+                logger.error(resourceBundle.getString("anotherFormat") + e);
             }
             if (regex(readerText, RegexTypes.PIZZA_ADDONS)) {
                 pizzaBuilder = pizzaBuilder.add(PizzasAddons.valueOf(readerText));
                 return;
             } else {
-                logger.error("You have " + (i - 1) + " tries left ");
+                logger.error(resourceBundle.getString("triesLeft") + (i-1));
                 if (i == 1) {
                     break;
                 }
@@ -178,17 +191,17 @@ public class OrderCreatorImpl implements OrderCreator {
 
     private void checkDrinksCount() {
         for (int i = 3; i > 0; i--) {
-            System.out.println("Please enter how many drinks do you want:");
+            System.out.println(resourceBundle.getString("drinksCount"));
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e);
+                logger.error(resourceBundle.getString("anotherFormat") + e);
             }
             if (regex(readerText, RegexTypes.COUNT)) {
                 drinksCount = Integer.parseInt(readerText);
                 return;
             } else {
-                logger.error("You can choose from 0 to 99 drinks. You have " + (i - 1) + " tries left ");
+                logger.error(resourceBundle.getString("drinksUpTo99") +  resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -199,17 +212,17 @@ public class OrderCreatorImpl implements OrderCreator {
     private void checkDrinksNamesEnum() {
         for (int i = 3; i > 0; i--) {
             try {
-                System.out.println("Please choose your drinks.");
-                System.out.println("1. Enter the name of drink. Please choose from following : BEER, VINE, COCACOLA, FANTA, SPRITE, JUICE, COFFEE, PEPSI");
+                System.out.println(resourceBundle.getString("drinkName"));
+                System.out.println(resourceBundle.getString("drinksTypes"));
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e);
+                logger.error(resourceBundle.getString("anotherFormat") + e);
             }
             if (regex(readerText, RegexTypes.DRINKS_NAME)) {
                 drinksBuilder = drinksBuilder.makeName(DrinksNames.valueOf(readerText)).makePrice();
                 return;
             } else {
-                logger.error("You have " + (i - 1) + " tries left ");
+                logger.error(resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -220,16 +233,16 @@ public class OrderCreatorImpl implements OrderCreator {
     private void checkDrinksSizeEnum() {
         for (int i = 3; i > 0; i--) {
             try {
-                System.out.println("2. Enter the size of drink: Please choose from following sizes: LOW(0.5L), MID1(1L), MID2(1.5L), BIG(2L)");
+                System.out.println(resourceBundle.getString("drinksSize"));
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e);
+                logger.error(resourceBundle.getString("anotherFormat") + e);
             }
             if (regex(readerText, RegexTypes.DRINKS_SIZE)) {
                 drinksBuilder = drinksBuilder.makeSize(DrinksSize.valueOf(readerText));
                 return;
             } else {
-                logger.error("You have " + (i - 1) + " tries left ");
+                logger.error(resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -240,16 +253,16 @@ public class OrderCreatorImpl implements OrderCreator {
     private void checkDate() {
         for (int i = 3; i > 0; i--) {
             try {
-                System.out.println("Please enter the date when you want to buy pizza or drinks in format : Year-month-day");
+                System.out.println(resourceBundle.getString("dateType"));
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e);
+                logger.error(resourceBundle.getString("anotherFormat") + e);
             }
             if (regex(readerText, RegexTypes.DATE)) {
                 data.setDate(LocalDate.parse(readerText));
                 return;
             } else {
-                logger.error("You have " + (i - 1) + " tries left ");
+                logger.error(resourceBundle.getString("triesLeft") + (i -1));
                 if (i == 1) {
                     break;
                 }
@@ -260,16 +273,16 @@ public class OrderCreatorImpl implements OrderCreator {
     private void checkDiscount() {
         for (int i = 3; i > 0; i--) {
             try {
-                System.out.println("Do you have a discount card?");
+                System.out.println(resourceBundle.getString("isDiscount"));
                 readerText = reader.readLine();
             } catch (IOException e) {
-                logger.error("Please type in another format " + e);
+                logger.error(resourceBundle.getString("anotherFormat") + e);
             }
             if (regex(readerText, RegexTypes.DISCOUNT)) {
                 data.setDiscount(readerText);
                 return;
             } else {
-                logger.error("Please type Yes or No.  You have " + (i - 1) + " tries left ");
+                logger.error(resourceBundle.getString("yesOrNo") + resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -290,22 +303,21 @@ public class OrderCreatorImpl implements OrderCreator {
                             checkPizzaAddonsEnum();
                         }
                     } else {
-                        System.out.println("Your pizza is without addons");
+                        System.out.println(resourceBundle.getString("pizzaWithoutAddons"));
                     }
                     data.getPizzas().add(pizzaBuilder.build());
                 }
             } else {
-                logger.error("As we see you don't want pizza, your number of pizzas is: " + pizzaCount);
+                logger.error(resourceBundle.getString("noNeedPizza") + pizzaCount);
             }
 
 
         } catch (IllegalArgumentException e) {
-            logger.error("Please type in another format " + e);
+            logger.error(resourceBundle.getString("anotherFormat") + e);
         } catch (NullPointerException e) {
-            logger.error("Please type not null variable " + e);
+            logger.error(resourceBundle.getString("anotherFormat") + e);
         } catch (Exception e) {
-            logger.error("Error with number of pizzas " + e);
-            /*System.exit(0);*/
+            logger.error(resourceBundle.getString("pizzaError") + e);
         }
     }
 
@@ -319,16 +331,16 @@ public class OrderCreatorImpl implements OrderCreator {
                     data.getDrinks().add(drinksBuilder.build());
                 }
             } else {
-                logger.error("As we see you don't want drinks, your number of drinks is :" + drinksCount);
+                logger.error(resourceBundle.getString("noNeedDrinks") + drinksCount);
             }
         } catch (Exception e) {
-            logger.error("Please type int number of drinks." + e);
-            /*System.exit(0);*/
+            logger.error(resourceBundle.getString("drinksError") + e);
         }
     }
 
     @Override
     public Data readData() {
+        checkLanguage();
         makePizza();
         makeDrinks();
         checkDate();

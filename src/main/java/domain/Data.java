@@ -3,6 +3,7 @@ package domain;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Andriy on 2/3/2016.
@@ -14,8 +15,7 @@ public class Data {
     private List<Pizza> pizzas = new ArrayList();
     private List<Drinks> drinks = new ArrayList();
     private String discount;
-    private String lang = "en";
-    private String country = "US";
+    private Locale locale = new Locale("en", "US");
 
     public LocalDate getDate() {
         return date;
@@ -57,19 +57,11 @@ public class Data {
         this.discount = discount;
     }
 
-    public String getLang() {
-        return lang;
+    public Locale getLocale() {
+        return locale;
     }
 
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getCountry() {
-        return country;
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 }

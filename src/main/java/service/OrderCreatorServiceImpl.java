@@ -21,6 +21,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
     private static final String REGEX_ADDONS_COUNT = "[0-9]";
     private static final String REGEX_DISCOUNT = "([Y,y](es|ES|eS|Es))|([N,n](o|O))";
     private static final Logger logger = LoggerFactory.getLogger(OrderCreatorServiceImpl.class);
+    private static final int COUNT_TRIES = 3;
     private Data data = new Data();
     private Pizza.PizzaBuilder pizzaBuilder = new Pizza.PizzaBuilder();
     private Drinks.DrinksBuilder drinksBuilder = new Drinks.DrinksBuilder();
@@ -31,12 +32,11 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
     private Locale locale;
     private ResourceBundle resourceBundle;
 
-    private void checkLanguage(){
-        if (System.getProperties().getProperty("user.language").equals("ua")){
-            data.setLang("ua");
-            data.setCountry("UA");
+    private void checkLanguage() {
+        if (System.getProperties().getProperty("user.language").equals("uk")) {
+            data.setLocale(new Locale("uk", "UKR"));
         }
-        locale = new Locale(data.getLang(), data.getCountry());
+        locale = data.getLocale();
         resourceBundle = ResourceBundle.getBundle("Bundle", locale);
     }
 
@@ -90,7 +90,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
 
     private void checkPizzaCount() {
         System.out.println(resourceBundle.getString("pizzaCount"));
-        for (int i = 3; i > 0; i--) {
+        for (int i = COUNT_TRIES; i > 0; i--) {
             try {
                 readerText = reader.readLine();
             } catch (IOException e) {
@@ -100,7 +100,8 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 pizzaCount = Integer.parseInt(readerText);
                 return;
             } else {
-                logger.error(resourceBundle.getString("pizzas99")+ resourceBundle.getString("triesLeft") + (i - 1));
+                logger.error(resourceBundle.getString("pizzas99") + " " + resourceBundle.getString("triesLeft") + " " + (i - 1));
+                System.out.println(resourceBundle.getString("pizzas99") + " " + resourceBundle.getString("triesLeft") + " " + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -109,11 +110,11 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
     }
 
     private void checkPizzasNamesEnum() {
-        for (int i = 3; i > 0; i--) {
+        for (int i = COUNT_TRIES; i > 0; i--) {
             try {
                 System.out.println(resourceBundle.getString("pizzaChoose"));
                 System.out.println(resourceBundle.getString("pizzaVariables"));
-                readerText = reader.readLine();
+                readerText = reader.readLine().toUpperCase();
             } catch (IOException e) {
                 logger.error(resourceBundle.getString("anotherFormat") + e);
             }
@@ -122,6 +123,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 return;
             } else {
                 logger.error(resourceBundle.getString("triesLeft") + (i - 1));
+                System.out.println(resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -130,7 +132,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
     }
 
     private void checkPizzaSize() {
-        for (int i = 3; i > 0; i--) {
+        for (int i = COUNT_TRIES; i > 0; i--) {
             System.out.println(resourceBundle.getString("pizzaSize"));
             try {
                 readerText = reader.readLine();
@@ -142,6 +144,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 return;
             } else {
                 logger.error(resourceBundle.getString("triesLeft") + (i - 1));
+                System.out.println(resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -150,7 +153,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
     }
 
     private void checkPizzaAddonsCount() {
-        for (int i = 3; i > 0; i--) {
+        for (int i = COUNT_TRIES; i > 0; i--) {
             System.out.println(resourceBundle.getString("pizzaAddonsCount"));
             try {
                 readerText = reader.readLine();
@@ -162,6 +165,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 return;
             } else {
                 logger.error(resourceBundle.getString("addonsCount") + resourceBundle.getString("triesLeft") + (i - 1));
+                System.out.println(resourceBundle.getString("addonsCount") + resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -170,10 +174,10 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
     }
 
     private void checkPizzaAddonsEnum() {
-        for (int i = 3; i > 0; i--) {
+        for (int i = COUNT_TRIES; i > 0; i--) {
             try {
                 System.out.println(resourceBundle.getString("pizzaAddonsTypes"));
-                readerText = reader.readLine();
+                readerText = reader.readLine().toUpperCase();
             } catch (IOException e) {
                 logger.error(resourceBundle.getString("anotherFormat") + e);
             }
@@ -181,7 +185,8 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 pizzaBuilder = pizzaBuilder.add(PizzasAddons.valueOf(readerText));
                 return;
             } else {
-                logger.error(resourceBundle.getString("triesLeft") + (i-1));
+                logger.error(resourceBundle.getString("triesLeft") + (i - 1));
+                System.out.println(resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -190,7 +195,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
     }
 
     private void checkDrinksCount() {
-        for (int i = 3; i > 0; i--) {
+        for (int i = COUNT_TRIES; i > 0; i--) {
             System.out.println(resourceBundle.getString("drinksCount"));
             try {
                 readerText = reader.readLine();
@@ -201,7 +206,8 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 drinksCount = Integer.parseInt(readerText);
                 return;
             } else {
-                logger.error(resourceBundle.getString("drinksUpTo99") +  resourceBundle.getString("triesLeft") + (i - 1));
+                logger.error(resourceBundle.getString("drinksUpTo99") + resourceBundle.getString("triesLeft") + (i - 1));
+                System.out.println(resourceBundle.getString("drinksUpTo99") + resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -210,11 +216,11 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
     }
 
     private void checkDrinksNamesEnum() {
-        for (int i = 3; i > 0; i--) {
+        for (int i = COUNT_TRIES; i > 0; i--) {
             try {
                 System.out.println(resourceBundle.getString("drinkName"));
                 System.out.println(resourceBundle.getString("drinksTypes"));
-                readerText = reader.readLine();
+                readerText = reader.readLine().toUpperCase();
             } catch (IOException e) {
                 logger.error(resourceBundle.getString("anotherFormat") + e);
             }
@@ -223,6 +229,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 return;
             } else {
                 logger.error(resourceBundle.getString("triesLeft") + (i - 1));
+                System.out.println(resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -231,10 +238,10 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
     }
 
     private void checkDrinksSizeEnum() {
-        for (int i = 3; i > 0; i--) {
+        for (int i = COUNT_TRIES; i > 0; i--) {
             try {
                 System.out.println(resourceBundle.getString("drinksSize"));
-                readerText = reader.readLine();
+                readerText = reader.readLine().toUpperCase();
             } catch (IOException e) {
                 logger.error(resourceBundle.getString("anotherFormat") + e);
             }
@@ -243,6 +250,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 return;
             } else {
                 logger.error(resourceBundle.getString("triesLeft") + (i - 1));
+                System.out.println(resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -251,7 +259,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
     }
 
     private void checkDate() {
-        for (int i = 3; i > 0; i--) {
+        for (int i = COUNT_TRIES; i > 0; i--) {
             try {
                 System.out.println(resourceBundle.getString("dateType"));
                 readerText = reader.readLine();
@@ -262,7 +270,8 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 data.setDate(LocalDate.parse(readerText));
                 return;
             } else {
-                logger.error(resourceBundle.getString("triesLeft") + (i -1));
+                logger.error(resourceBundle.getString("triesLeft") + (i - 1));
+                System.out.println(resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -271,7 +280,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
     }
 
     private void checkDiscount() {
-        for (int i = 3; i > 0; i--) {
+        for (int i = COUNT_TRIES; i > 0; i--) {
             try {
                 System.out.println(resourceBundle.getString("isDiscount"));
                 readerText = reader.readLine();
@@ -283,6 +292,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 return;
             } else {
                 logger.error(resourceBundle.getString("yesOrNo") + resourceBundle.getString("triesLeft") + (i - 1));
+                System.out.println(resourceBundle.getString("yesOrNo") + resourceBundle.getString("triesLeft") + (i - 1));
                 if (i == 1) {
                     break;
                 }
@@ -309,6 +319,7 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 }
             } else {
                 logger.error(resourceBundle.getString("noNeedPizza") + pizzaCount);
+                System.out.println(resourceBundle.getString("noNeedPizza") + pizzaCount);
             }
 
 
@@ -332,13 +343,13 @@ public class OrderCreatorServiceImpl implements OrderCreatorService {
                 }
             } else {
                 logger.error(resourceBundle.getString("noNeedDrinks") + drinksCount);
+                System.out.println(resourceBundle.getString("noNeedDrinks") + drinksCount);
             }
         } catch (Exception e) {
             logger.error(resourceBundle.getString("drinksError") + e);
         }
     }
 
-    @Override
     public Data readData() {
         checkLanguage();
         makePizza();

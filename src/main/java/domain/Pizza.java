@@ -21,7 +21,6 @@ public class Pizza {
     private int price;
     private String addonsInformation = "";
     private int count;
-    private PizzasAddons pizzasAddons;
 
     public void setCount(int count) {
         this.count = count;
@@ -40,7 +39,6 @@ public class Pizza {
     }
 
     public void setAddonsInformation(PizzasAddons pizzasAddons) {
-        this.pizzasAddons = pizzasAddons;
         this.addonsInformation += " " + pizzasAddons;
     }
 
@@ -52,7 +50,6 @@ public class Pizza {
         this.price = price;
     }
 
-    @Override
     public String toString() {
         return count + " " + this.getClass().getSimpleName() + " " + this.pizzasNames + " " + this.info +
                 ". Addons : " + this.addonsInformation + ". Size is : " + size + " sm. Price is: " + price + " hrn";
@@ -62,17 +59,16 @@ public class Pizza {
         private static final String CSV_FILE_30 = "./src/main/resources/Pizza30Prices.csv";
         private static final String CSV_FILE_50 = "./src/main/resources/Pizza50Prices.csv";
         private static final String CSV_SPLIT_BY = ",";
-        private String line = "";
         private static int count;
+        private String line = "";
         private Map<String, String> pizzaMaps = new HashMap<String, String>();
         private int size = 30;
         private String info = ": Cheese + Salami + Papper ";
         private int price;
-        private String addons = " ";
         private PizzasAddons pizzasAddons;
         private PizzasNames pizzasNames;
         private Data data = new Data();
-        private Locale locale = new Locale(data.getLang(), data.getCountry());
+        private Locale locale = data.getLocale();
         private ResourceBundle resourceBundle = ResourceBundle.getBundle("Bundle", locale);
 
         public PizzaBuilder makeName(PizzasNames pizzasNames) {
@@ -111,7 +107,6 @@ public class Pizza {
         }
 
         public PizzaBuilder add(PizzasAddons pizzasAddons) {
-            this.addons += " " + pizzasAddons;
             this.pizzasAddons = pizzasAddons;
             switch (pizzasAddons) {
                 case CHEESE:
@@ -249,7 +244,7 @@ public class Pizza {
                                 break;
                             default:
                                 logger.error(resourceBundle.getString("pizzaSize"));
-                               break;
+                                break;
                         }
                     } catch (IOException e) {
                         logger.error(resourceBundle.getString("correctName") + e);

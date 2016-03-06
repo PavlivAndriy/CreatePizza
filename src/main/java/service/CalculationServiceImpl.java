@@ -2,8 +2,6 @@ package service;
 
 import domain.Bill;
 import domain.Data;
-import domain.Drinks;
-import domain.Pizza;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,29 +9,20 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-
 public class CalculationServiceImpl implements CalculationService {
     private static final Logger logger = LoggerFactory.getLogger(CalculationServiceImpl.class);
-    private double pizzaTotalPrice;
-    private double drinksTotalPrice;
-    private double totalPrice;
-    private Data data = new Data();
     private Bill bill = new Bill();
     private LocalDate hollidayChristmas = Year.now().atMonth(Month.JANUARY).atDay(7);
     private LocalDate hollidayIndepenanceDay = Year.now().atMonth(Month.AUGUST).atDay(24);
     private LocalDate hollidayProgrammerDay = Year.now().atDay(256);
-    private List<Pizza> pizzas = new ArrayList();
-    private List<Drinks> drinks = new ArrayList();
-    private Locale locale = new Locale(data.getLang(), data.getCountry());
-    private ResourceBundle resourceBundle = ResourceBundle.getBundle("Bundle", locale);
+    private Locale locale;
+    private ResourceBundle resourceBundle;
 
-    private void setDiscount(String discount) {
-        totalPrice = bill.getTotalPrice();
+    private void setDiscount(String discount, Data data) {
+        double totalPrice = bill.getTotalPrice();
         LocalDate date = data.getDate();
         if ((date.equals(hollidayChristmas))
                 || (date.equals(hollidayIndepenanceDay))
@@ -42,24 +31,28 @@ public class CalculationServiceImpl implements CalculationService {
             bill.setTotalPrice(totalPrice);
             discount = "No";
             logger.info(resourceBundle.getString("economyHollidays") + bill.getTotalPrice());
+            bill.setHollidays(resourceBundle.getString("economyHollidays") + String.format(" %.2f ", bill.getTotalPrice()));
         } else {
             logger.info(resourceBundle.getString("noEconomy"));
+            bill.setHollidays(resourceBundle.getString("noEconomy"));
         }
 
         if (discount.equalsIgnoreCase("Yes")) {
             double discountPay = bill.getTotalPrice() * 0.1;
             totalPrice *= 0.9;
             bill.setTotalPrice(totalPrice);
-            logger.info(resourceBundle.getString("yourDiscount")+ discountPay);
+            logger.info(resourceBundle.getString("yourDiscount") + discountPay);
+            bill.setDiscount(resourceBundle.getString("yourDiscount") + " " + String.format(" %.2f ",discountPay));
         } else if (discount.equalsIgnoreCase("No")) {
             totalPrice *= 1;
             bill.setTotalPrice(totalPrice);
             logger.info(resourceBundle.getString("noDiscount"));
+            bill.setDiscount(resourceBundle.getString("noDiscount"));
         }
 
     }
 
-    private void check() {
+    private void check(Data data) {
         LocalDate date = data.getDate();
         double price = bill.getTotalPrice();
         if (date.getYear() > 2015 && date.getMonth().equals(Month.SEPTEMBER) && date.getDayOfMonth() < 8
@@ -67,15 +60,17 @@ public class CalculationServiceImpl implements CalculationService {
             price *= 1;
             bill.setTotalPrice(price);
             logger.info(resourceBundle.getString("noTips"));
+            bill.setTips(resourceBundle.getString("noTips"));
         } else {
             double tips = 0.05 * bill.getTotalPrice();
             price *= 1.05;
             bill.setTotalPrice(price);
-            logger.info(resourceBundle.getString("payForTips") + tips );
+            logger.info(resourceBundle.getString("payForTips") + tips);
+            bill.setTips(resourceBundle.getString("payForTips") + " " + String.format(" %.2f ", tips));
         }
     }
 
-    private void weekends() {
+    private void weekends(Data data) {
         LocalDate date = data.getDate();
         double price = bill.getTotalPrice();
         if (date.getDayOfWeek().equals(DayOfWeek.FRIDAY)
@@ -84,53 +79,61 @@ public class CalculationServiceImpl implements CalculationService {
             double weekendsPay = 0.05 * bill.getTotalPrice();
             price *= 1.05;
             bill.setTotalPrice(price);
-            logger.info(resourceBundle.getString("payForWeekends")+ weekendsPay );
+            logger.info(resourceBundle.getString("payForWeekends") + weekendsPay);
+            bill.setWeekends(resourceBundle.getString("payForWeekends") + " " +String.format(" %.2f",weekendsPay));
         }
     }
 
-    private void storeInfo() {
-        pizzaCost();
-        drinksCost();
+    private void storeInfo(Data data) {
+        locale = data.getLocale();
+        resourceBundle = ResourceBundle.getBundle("Bundle", locale);
+        pizzaCost(data);
+        drinksCost(data);
         bill.setTotalPrice(bill.getDrinksPrice() + bill.getPizzaPrice());
         if (bill.getTotalPrice() == 0) {
             logger.error(resourceBundle.getString("orderFor") + bill.getTotalPrice()
                     + resourceBundle.getString("thankYouForVisit"));
+            System.out.println(resourceBundle.getString("orderFor") + bill.getTotalPrice()
+                    + resourceBundle.getString("thankYouForVisit"));
         } else {
-            System.out.println(resourceBundle.getString("yourOrder"));
-            for (Pizza p : pizzas) {
-                System.out.println(p);
-            }
-            for (Drinks dr : drinks) {
-                System.out.println(dr);
-            }
-            check();
-            weekends();
-            setDiscount(data.getDiscount());
+            bill.setOrder(resourceBundle.getString("yourOrder"));
+            check(data);
+            weekends(data);
+            setDiscount(data.getDiscount(), data);
             logger.info(resourceBundle.getString("finalPrice") + bill.getTotalPrice());
-
+            bill.setFinalPriceToString(resourceBundle.getString("finalPrice") + " "
+                    + String.format(" %.2f ",bill.getTotalPrice()));
         }
     }
 
-    private void pizzaCost() {
-        for (int i = 0; i < pizzas.size(); i++) {
-            pizzaTotalPrice += pizzas.get(i).getPrice();
+    private void pizzaCost(Data data) {
+        bill.setPizzas(data.getPizzas());
+        double pizzaTotalPrice = 0;
+        try {
+            for (int i = 0; i < data.getPizzas().size(); i++) {
+                pizzaTotalPrice += data.getPizzas().get(i).getPrice();
+            }
             bill.setPizzaPrice(pizzaTotalPrice);
+        } catch (IndexOutOfBoundsException e) {
+            logger.error(resourceBundle.getString("pizzaError"));
         }
     }
 
-    private void drinksCost() {
-        for (int i = 0; i < drinks.size(); i++) {
-            drinksTotalPrice += drinks.get(i).getPrice();
+    private void drinksCost(Data data) {
+        bill.setDrinks(data.getDrinks());
+        double drinksTotalPrice = 0;
+        try {
+            for (int i = 0; i < data.getDrinks().size(); i++) {
+                drinksTotalPrice += data.getDrinks().get(i).getPrice();
+            }
             bill.setDrinksPrice(drinksTotalPrice);
+        } catch (IndexOutOfBoundsException e) {
+            logger.error(resourceBundle.getString("drinksError"));
         }
     }
-
 
     public Bill buildBill(Data data) {
-        this.data = data;
-        pizzas = data.getPizzas();
-        drinks = data.getDrinks();
-        storeInfo();
+        storeInfo(data);
         return bill;
     }
 }

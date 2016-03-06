@@ -1,9 +1,21 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Bill {
     private double pizzaPrice;
     private double drinksPrice;
     private double totalPrice;
+    private String weekends;
+    private String tips;
+    private String discount;
+    private String hollidays;
+    private String order;
+    private String finalPriceToString;
+    private List<Pizza> pizzas = new ArrayList();
+    private List<Drinks> drinks = new ArrayList();
+
 
     public double getTotalPrice() {
         return totalPrice;
@@ -29,8 +41,51 @@ public class Bill {
         this.pizzaPrice = pizzaPrice;
     }
 
-    @Override
+    public void setPizzas(List<Pizza> pizzas) {
+        this.pizzas = pizzas;
+    }
+
+    public void setDrinks(List<Drinks> drinks) {
+        this.drinks = drinks;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public void setWeekends(String weekends) {
+        this.weekends = weekends;
+    }
+
+    public void setTips(String tips) {
+        this.tips = tips;
+    }
+
+    public void setHollidays(String hollidays) {
+        this.hollidays = hollidays;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public void setFinalPriceToString(String finalPriceToString) {
+        this.finalPriceToString = finalPriceToString;
+    }
+
     public String toString() {
+        System.out.println(order);
+        for (Pizza p : pizzas) {
+            System.out.println(p);
+        }
+        for (Drinks dr : drinks) {
+            System.out.println(dr);
+        }
+        System.out.println(tips);
+        System.out.println(weekends);
+        System.out.println(hollidays);
+        System.out.println(discount);
+        System.out.println(finalPriceToString);
         return " ";
     }
 

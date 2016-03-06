@@ -1,3 +1,4 @@
+import domain.Bill;
 import domain.Data;
 import service.CalculationServiceImpl;
 import service.OrderCreatorServiceImpl;
@@ -10,7 +11,8 @@ public class Launcher {
         CalculationServiceImpl calculationServiceImpl = new CalculationServiceImpl();
         OrderCreatorServiceImpl orderCreatorImpl = new OrderCreatorServiceImpl();
         Data data = orderCreatorImpl.readData();
-        calculationServiceImpl.buildBill(data);
+        Bill bill = calculationServiceImpl.buildBill(data);
+        System.out.println(bill);
     }
 }
 

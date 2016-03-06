@@ -23,7 +23,6 @@ public class Drinks {
     private int price;
     private int count;
 
-
     public void setName(DrinksNames drinksNames) {
         this.drinksNames = drinksNames;
     }
@@ -44,7 +43,6 @@ public class Drinks {
         this.price = price;
     }
 
-    @Override
     public String toString() {
         return count + " " + this.getClass().getSimpleName() + ": " + this.drinksNames + " "
                 + this.drinksSize + " size Price: " + this.price + " hrn";
@@ -53,15 +51,15 @@ public class Drinks {
     public static class DrinksBuilder {
         private static final String CSV_FILE = "./src/main/resources/DrinksPrices.csv";
         private static final String CSV_SPLIT_BY = ",";
+        private Data data = new Data();
+        private Locale locale = data.getLocale();
+        private ResourceBundle resourceBundle = ResourceBundle.getBundle("Bundle", locale);
         private String line = "";
         private int count;
         private int price;
         private DrinksNames drinksNames;
         private DrinksSize drinksSize;
         private Map<String, String> drinksMaps = new HashMap<String, String>();
-        private Data data = new Data();
-        private Locale locale = new Locale(data.getLang(), data.getCountry());
-        private ResourceBundle resourceBundle = ResourceBundle.getBundle("Bundle", locale);
 
         public DrinksBuilder makeName(DrinksNames drinksNames) {
             this.drinksNames = drinksNames;

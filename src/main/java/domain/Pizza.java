@@ -39,7 +39,7 @@ public class Pizza {
     }
 
     public void setAddonsInformation(PizzasAddons pizzasAddons) {
-        this.addonsInformation += " " + pizzasAddons;
+        this.addonsInformation = " " + pizzasAddons;
     }
 
     public int getPrice() {
@@ -51,15 +51,26 @@ public class Pizza {
     }
 
     public String toString() {
-        return count + " " + this.getClass().getSimpleName() + " " + this.pizzasNames + " " + this.info +
-                ". Addons : " + this.addonsInformation + ". Size is : " + size + " sm. Price is: " + price + " hrn";
+        StringBuffer sb = new StringBuffer();
+        sb.append(count);
+        sb.append(" " + this.getClass().getSimpleName());
+        sb.append(": " + this.pizzasNames);
+        sb.append(" " + this.info);
+        sb.append(". Addons : ");
+        sb.append(this.addonsInformation);
+        sb.append(". Size is : ");
+        sb.append(this.size);
+        sb.append(" sm. Price is: ");
+        sb.append(this.price);
+        sb.append(" hrn");
+        return sb.toString();
     }
 
     public static class PizzaBuilder {
-        private static final String CSV_FILE_30 = "./src/main/resources/Pizza30Prices.csv";
-        private static final String CSV_FILE_50 = "./src/main/resources/Pizza50Prices.csv";
+        private static final String CSV_FILE_30 = "./Pizza30Prices.csv";
+        private static final String CSV_FILE_50 = "./Pizza50Prices.csv";
         private static final String CSV_SPLIT_BY = ",";
-        private static int count;
+        private int count;
         private String line = "";
         private Map<String, String> pizzaMaps = new HashMap<String, String>();
         private int size = 30;
@@ -70,6 +81,18 @@ public class Pizza {
         private Data data = new Data();
         private Locale locale = data.getLocale();
         private ResourceBundle resourceBundle = ResourceBundle.getBundle("Bundle", locale);
+
+        public int getSize() {
+            return size;
+        }
+
+        public PizzasNames getPizzasNames() {
+            return pizzasNames;
+        }
+
+        public void setPrice(int price) {
+            this.price = price;
+        }
 
         public PizzaBuilder makeName(PizzasNames pizzasNames) {
             this.pizzasNames = pizzasNames;
@@ -278,6 +301,8 @@ public class Pizza {
             }
             return pizza;
         }
+
+
     }
 
 }

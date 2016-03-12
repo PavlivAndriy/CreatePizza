@@ -14,7 +14,7 @@ public class Data {
     private int addons;
     private List<Pizza> pizzas = new ArrayList();
     private List<Drinks> drinks = new ArrayList();
-    private String discount;
+    private boolean discount;
     private Locale locale = new Locale("en", "US");
 
     public LocalDate getDate() {
@@ -37,23 +37,15 @@ public class Data {
         return pizzas;
     }
 
-    public void setPizzas(List<Pizza> pizzas) {
-        this.pizzas = pizzas;
-    }
-
     public List<Drinks> getDrinks() {
         return drinks;
     }
 
-    public void setDrinks(List<Drinks> drinks) {
-        this.drinks = drinks;
-    }
-
-    public String getDiscount() {
+    public boolean getDiscount() {
         return discount;
     }
 
-    public void setDiscount(String discount) {
+    public void setDiscount(Boolean discount) {
         this.discount = discount;
     }
 
@@ -63,5 +55,13 @@ public class Data {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    public void addPizza(Pizza pizza){
+        this.pizzas.add(pizza);
+    }
+
+    public void addDrinks(Drinks drink){
+        this.drinks.add(drink);
     }
 }

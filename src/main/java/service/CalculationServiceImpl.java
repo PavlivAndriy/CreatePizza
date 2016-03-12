@@ -21,7 +21,7 @@ public class CalculationServiceImpl implements CalculationService {
     private Locale locale;
     private ResourceBundle resourceBundle;
 
-    private void setDiscount(String discount, Data data) {
+    private void setDiscount(boolean discount, Data data) {
         double totalPrice = bill.getTotalPrice();
         LocalDate date = data.getDate();
         if ((date.equals(hollidayChristmas))
@@ -29,7 +29,7 @@ public class CalculationServiceImpl implements CalculationService {
                 || (date.equals(hollidayProgrammerDay))) {
             totalPrice *= 0.5;
             bill.setTotalPrice(totalPrice);
-            discount = "No";
+            discount = false;
             logger.info(resourceBundle.getString("economyHollidays") + bill.getTotalPrice());
             bill.setHollidays(resourceBundle.getString("economyHollidays") + String.format(" %.2f ", bill.getTotalPrice()));
         } else {
@@ -37,13 +37,13 @@ public class CalculationServiceImpl implements CalculationService {
             bill.setHollidays(resourceBundle.getString("noEconomy"));
         }
 
-        if (discount.equalsIgnoreCase("Yes")) {
+        if (discount == true) {
             double discountPay = bill.getTotalPrice() * 0.1;
             totalPrice *= 0.9;
             bill.setTotalPrice(totalPrice);
             logger.info(resourceBundle.getString("yourDiscount") + discountPay);
             bill.setDiscount(resourceBundle.getString("yourDiscount") + " " + String.format(" %.2f ",discountPay));
-        } else if (discount.equalsIgnoreCase("No")) {
+        } else if (discount == false) {
             totalPrice *= 1;
             bill.setTotalPrice(totalPrice);
             logger.info(resourceBundle.getString("noDiscount"));

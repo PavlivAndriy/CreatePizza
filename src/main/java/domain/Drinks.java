@@ -44,12 +44,19 @@ public class Drinks {
     }
 
     public String toString() {
-        return count + " " + this.getClass().getSimpleName() + ": " + this.drinksNames + " "
-                + this.drinksSize + " size Price: " + this.price + " hrn";
+        StringBuilder sb = new StringBuilder();
+        sb.append(count);
+        sb.append(" " + this.getClass().getSimpleName());
+        sb.append(": " + this.drinksNames);
+        sb.append(" " + this.drinksSize);
+        sb.append(" size Price: ");
+        sb.append(this.price);
+        sb.append(" hrn");
+        return sb.toString();
     }
 
     public static class DrinksBuilder {
-        private static final String CSV_FILE = "./src/main/resources/DrinksPrices.csv";
+        private static final String CSV_FILE = "./DrinksPrices.csv";
         private static final String CSV_SPLIT_BY = ",";
         private Data data = new Data();
         private Locale locale = data.getLocale();
@@ -60,6 +67,14 @@ public class Drinks {
         private DrinksNames drinksNames;
         private DrinksSize drinksSize;
         private Map<String, String> drinksMaps = new HashMap<String, String>();
+
+        public void setPrice(int price) {
+            this.price = price;
+        }
+
+        public DrinksNames getDrinksNames() {
+            return drinksNames;
+        }
 
         public DrinksBuilder makeName(DrinksNames drinksNames) {
             this.drinksNames = drinksNames;
@@ -179,7 +194,6 @@ public class Drinks {
             drinks.setCount(count);
             return drinks;
         }
-
     }
 
 }

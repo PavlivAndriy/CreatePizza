@@ -74,19 +74,23 @@ public class Bill {
     }
 
     public String toString() {
-        System.out.println(order);
+        StringBuilder sb = new StringBuilder();
+        sb.append(order);
         for (Pizza p : pizzas) {
-            System.out.println(p);
+            sb.append("\n" + p);
         }
         for (Drinks dr : drinks) {
-            System.out.println(dr);
+            sb.append("\n" + dr);
         }
-        System.out.println(tips);
-        System.out.println(weekends);
-        System.out.println(hollidays);
-        System.out.println(discount);
-        System.out.println(finalPriceToString);
-        return " ";
+        sb.append("\n" + tips);
+        sb.append("\n" + weekends);
+        sb.append("\n" + hollidays);
+        sb.append("\n" + discount);
+        sb.append("\n" + finalPriceToString);
+        if (totalPrice == 0.0){
+            return " ";
+        }
+        return sb.toString();
     }
 
 

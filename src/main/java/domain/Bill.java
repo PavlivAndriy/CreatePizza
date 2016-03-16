@@ -87,7 +87,7 @@ public class Bill {
         sb.append("\n" + hollidays);
         sb.append("\n" + discount);
         sb.append("\n" + finalPriceToString);
-        if (totalPrice == 0.0){
+        if (totalPrice == 0.0) {
             return " ";
         }
         return sb.toString();

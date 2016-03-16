@@ -57,11 +57,11 @@ public class Data {
         this.locale = locale;
     }
 
-    public void addPizza(Pizza pizza){
+    public void addPizza(Pizza pizza) {
         this.pizzas.add(pizza);
     }
 
-    public void addDrinks(Drinks drink){
+    public void addDrinks(Drinks drink) {
         this.drinks.add(drink);
     }
 }

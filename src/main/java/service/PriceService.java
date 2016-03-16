@@ -1,12 +1,12 @@
 package service;
 
-import java.util.Map;
+import domain.Drinks;
+import domain.Pizza;
 
 public interface PriceService {
-    Map<String, String> getPricesForSmallPizza();
 
-    Map<String, String> getPricesForBigPizza();
+    void getPricesForPizza(Pizza pizza);
 
-    Map<String, String> getPricesForDrinks();
+    void getPricesForDrinks(Drinks drinks);
 
 }

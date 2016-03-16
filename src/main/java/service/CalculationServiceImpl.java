@@ -42,7 +42,7 @@ public class CalculationServiceImpl implements CalculationService {
             totalPrice *= 0.9;
             bill.setTotalPrice(totalPrice);
             logger.info(resourceBundle.getString("yourDiscount") + discountPay);
-            bill.setDiscount(resourceBundle.getString("yourDiscount") + " " + String.format(" %.2f ",discountPay));
+            bill.setDiscount(resourceBundle.getString("yourDiscount") + " " + String.format(" %.2f ", discountPay));
         } else if (discount == false) {
             totalPrice *= 1;
             bill.setTotalPrice(totalPrice);
@@ -80,7 +80,7 @@ public class CalculationServiceImpl implements CalculationService {
             price *= 1.05;
             bill.setTotalPrice(price);
             logger.info(resourceBundle.getString("payForWeekends") + weekendsPay);
-            bill.setWeekends(resourceBundle.getString("payForWeekends") + " " +String.format(" %.2f",weekendsPay));
+            bill.setWeekends(resourceBundle.getString("payForWeekends") + " " + String.format(" %.2f", weekendsPay));
         }
     }
 
@@ -102,7 +102,7 @@ public class CalculationServiceImpl implements CalculationService {
             setDiscount(data.getDiscount(), data);
             logger.info(resourceBundle.getString("finalPrice") + bill.getTotalPrice());
             bill.setFinalPriceToString(resourceBundle.getString("finalPrice") + " "
-                    + String.format(" %.2f ",bill.getTotalPrice()));
+                    + String.format(" %.2f ", bill.getTotalPrice()));
         }
     }
 
